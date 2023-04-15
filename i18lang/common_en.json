@@ -1,0 +1,18 @@
+{
+  "welcome": {
+    "title": {
+      "company": "Welcome to {{company}}",
+      "user": "Welcome {{user}}"
+    }
+  },
+  "about": "About us",
+  "contact": {
+    "us": "Contact us",
+    "address": "Address",
+    "email": "Email",
+    "tel": "Telephone"
+  },
+  "change": {
+    "language": "Switch Language"
+  }
+}

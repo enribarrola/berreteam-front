@@ -1,0 +1,19 @@
+{
+  "name": "BerreTeam",
+  "description": "Description",
+  "slogan": "${Creativity} is the process of having ${original ideas}.",
+  "contact": {
+    "name": "BerreTeam",
+    "tel": "+123 456 7890",
+    "addr": "123 Street. Dawsonville, GA",
+    "cp": 123456,
+    "city": "city",
+    "country": "country",
+    "email": "email@berreteam.com",
+    "facebook": "https://www.facebook.com/",
+    "instagram": "https://www.instagram.com/",
+    "twitter": "https://www.twitter.com/",
+    "discord": "https://www.discord.gg/",
+    "youtube": "https://www.youtube.com/"
+  }
+}
