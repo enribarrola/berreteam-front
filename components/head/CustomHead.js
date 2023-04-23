@@ -1,5 +1,4 @@
 import Head from "next/head";
-
 export default function CustomHead(params) {
     return (<>
         <Head>
@@ -9,12 +8,8 @@ export default function CustomHead(params) {
             <title>{params.name}</title>
             <meta name="description" content={params.description}/>
             <link rel="icon" href="/favicon.ico"/>
-
+            <meta name="sharedArrayBuffer" description="using cross-orgiin-isolation in the web browser" /> 
             <link rel="stylesheet" href="/styles/ionicons.min.css"/>
-            {/*<style data-href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap">*/}
-            {/*</style>*/}
-            {/*<style data-href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@100;200;300;400;500;600;700;800;900&display=swap">*/}
-            {/*</style>*/}
 
         </Head>
     </>)
