@@ -12,7 +12,7 @@
 export default function CoreGlueCode(params) {
 
 
-    var IodineGUI = {
+    this.IodineGUI = {
         Iodine: null,
         Blitter: null,
         coreTimerID: null,

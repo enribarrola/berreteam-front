@@ -8,7 +8,9 @@
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GfxGlueCode(width, height) {
+import TypedArrayShim from "../../../components/gba/iodinegba-master/IodineGBA/includes/TypedArrayShim";
+const tas = new TypedArrayShim();
+export function GfxGlueCode(width, height) {
     this.graphicsFound = false;               //Do we have graphics output sink found yet?
     this.gfxCallback = null;                  //Optional callback user-supplied for vsync eventing.
     this.doSmoothing = true;                  //Texture filter the framebuffer?
@@ -136,7 +138,7 @@ GfxGlueCode.prototype.getBuffer = function (canvasContext, width, height) {
     }
     return buffer;
 }
-if (__VIEWS_SUPPORTED__) {
+if (tas.__VIEWS_SUPPORTED__) {
     GfxGlueCode.prototype.copyBuffer = function (buffer) {
         if (this.graphicsFound) {
             if (this.swizzledFrameFree.length == 0) {

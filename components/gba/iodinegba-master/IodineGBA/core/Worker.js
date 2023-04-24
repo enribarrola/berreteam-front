@@ -8,160 +8,185 @@
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-importScripts("../includes/TypedArrayShim.js");
-importScripts("Cartridge.js");
-importScripts("DMA.js");
-importScripts("Emulator.js");
-importScripts("Graphics.js");
-importScripts("RunLoop.js");
-importScripts("Memory.js");
-importScripts("IRQ.js");
-importScripts("JoyPad.js");
-importScripts("Serial.js");
-importScripts("Sound.js");
-importScripts("Timer.js");
-importScripts("Wait.js");
-importScripts("CPU.js");
-importScripts("Saves.js");
-importScripts("sound/FIFO.js");
-importScripts("sound/Channel1.js");
-importScripts("sound/Channel2.js");
-importScripts("sound/Channel3.js");
-importScripts("sound/Channel4.js");
-importScripts("CPU/ARM.js");
-importScripts("CPU/THUMB.js");
-importScripts("CPU/CPSR.js");
-importScripts("graphics/RendererProxy.js");
-importScripts("graphics/RendererShim.js");
-importScripts("graphics/Renderer.js");
-importScripts("graphics/BGTEXT.js");
-importScripts("graphics/BG2FrameBuffer.js");
-importScripts("graphics/BGMatrix.js");
-importScripts("graphics/AffineBG.js");
-importScripts("graphics/ColorEffects.js");
-importScripts("graphics/Mosaic.js");
-importScripts("graphics/OBJ.js");
-importScripts("graphics/OBJWindow.js");
-importScripts("graphics/Window.js");
-importScripts("graphics/Compositor.js");
-importScripts("memory/DMA0.js");
-importScripts("memory/DMA1.js");
-importScripts("memory/DMA2.js");
-importScripts("memory/DMA3.js");
-importScripts("cartridge/SaveDeterminer.js");
-importScripts("cartridge/SRAM.js");
-importScripts("cartridge/FLASH.js");
-importScripts("cartridge/EEPROM.js");
-importScripts("cartridge/GPIO.js");
-export default class GBAWorker {
-    constructor(params){
+// importScripts("../includes/TypedArrayShim.js");
+// importScripts("Cartridge.js");
+// importScripts("DMA.js");
+// importScripts("Emulator.js");
+// importScripts("Graphics.js");
+// importScripts("RunLoop.js");
+// importScripts("Memory.js");
+// importScripts("IRQ.js");
+// importScripts("JoyPad.js");
+// importScripts("Serial.js");
+// importScripts("Sound.js");
+// importScripts("Timer.js");
+// importScripts("Wait.js");
+// importScripts("CPU.js");
+// importScripts("Saves.js");
+// importScripts("sound/FIFO.js");
+// importScripts("sound/Channel1.js");
+// importScripts("sound/Channel2.js");
+// importScripts("sound/Channel3.js");
+// importScripts("sound/Channel4.js");
+// importScripts("CPU/ARM.js");
+// importScripts("CPU/THUMB.js");
+// importScripts("CPU/CPSR.js");
+// importScripts("graphics/RendererProxy.js");
+// importScripts("graphics/RendererShim.js");
+// importScripts("graphics/Renderer.js");
+// importScripts("graphics/BGTEXT.js");
+// importScripts("graphics/BG2FrameBuffer.js");
+// importScripts("graphics/BGMatrix.js");
+// importScripts("graphics/AffineBG.js");
+// importScripts("graphics/ColorEffects.js");
+// importScripts("graphics/Mosaic.js");
+// importScripts("graphics/OBJ.js");
+// importScripts("graphics/OBJWindow.js");
+// importScripts("graphics/Window.js");
+// importScripts("graphics/Compositor.js");
+// importScripts("memory/DMA0.js");
+// importScripts("memory/DMA1.js");
+// importScripts("memory/DMA2.js");
+// importScripts("memory/DMA3.js");
+// importScripts("cartridge/SaveDeterminer.js");
+// importScripts("cartridge/SRAM.js");
+// importScripts("cartridge/FLASH.js");
+// importScripts("cartridge/EEPROM.js");
+// importScripts("cartridge/GPIO.js");
+
+import GameBoyAdvanceEmulator from "./Emulator";
+import TypedArrayShim from "../includes/TypedArrayShim";
+import {Component} from "react";
+const tas = new TypedArrayShim();
+export default class GBAWorker extends Component{
+    constructor(props) {
+        super(props)
         console.log("GBAWorker");
         this.Iodine = new GameBoyAdvanceEmulator();
         //Save callbacks waiting to be satisfied:
         this.saveImportPool = [];
         //Graphics Buffers:
-        this.gfxBuffers = [getSharedUint8Array(160 * 240 * 3),
-        getSharedUint8Array(160 * 240 * 3)];
-        this.gfxCounters = getSharedInt32Array(3);
+        this.gfxBuffers = [tas.getSharedUint8Array(160 * 240 * 3),
+            tas.getSharedUint8Array(160 * 240 * 3)];
+            this.gfxCounters = tas.getSharedInt32Array(3);
         //Audio Buffers:
         this.audioBuffer = null;
         this.audioCounters = null;
         this.audioBufferSize = 0;
         this.audioBufferSizeMask = 0;
-        this.audioSamplesRemaining = getSharedInt32Array(1);
+        this.audioSamplesRemaining = tas.getSharedInt32Array(1);
         //Time Stamp tracking:
-        this.timestamp = getSharedUint32Array(1);
+        this.timestamp = tas.getSharedUint32Array(1);
         //Interval Timer handle:
         this.timerHandle = null;
         this.timerRate = 0;
         //Pass the shared array buffers:
+    }
+
+    componentDidMount (){
         try {
-            postMessage({ messageID: 0, gfxBuffer1: gfxBuffers[0], gfxBuffer2: gfxBuffers[1], gfxCounters: gfxCounters, audioSamplesRemaining: audioSamplesRemaining, timestamp: timestamp }, [gfxBuffers[0].buffer, gfxBuffers[1].buffer, gfxCounters.buffer, audioSamplesRemaining.buffer, timestamp.buffer]);
+            window.postMessage({
+                messageID: 0,
+                gfxBuffer1: gfxBuffers[0],
+                gfxBuffer2: gfxBuffers[1],
+                gfxCounters: gfxCounters,
+                audioSamplesRemaining: audioSamplesRemaining,
+                timestamp: timestamp
+            }, [gfxBuffers[0].buffer, gfxBuffers[1].buffer, gfxCounters.buffer, audioSamplesRemaining.buffer, timestamp.buffer]);
+        } catch (e) {
+            window.postMessage({
+                messageID: 0,
+                gfxBuffer1: gfxBuffers[0],
+                gfxBuffer2: gfxBuffers[1],
+                gfxCounters: gfxCounters,
+                audioSamplesRemaining: audioSamplesRemaining,
+                timestamp: timestamp
+            });
         }
-        catch (e) {
-            postMessage({ messageID: 0, gfxBuffer1: gfxBuffers[0], gfxBuffer2: gfxBuffers[1], gfxCounters: gfxCounters, audioSamplesRemaining: audioSamplesRemaining, timestamp: timestamp });
-        }        
     }
 
 //Event decoding:
     onmessage = function (event) {
         console.log(event);
-    var data = event.data;
-    switch (data.messageID | 0) {
-        case 0:
-            Iodine.play();
-            break;
-        case 1:
-            Iodine.pause();
-            break;
-        case 2:
-            Iodine.restart();
-            break;
-        case 3:
-            Iodine.setIntervalRate(+data.payload);
-            changeTimer(data.payload | 0);
-            break;
-        case 4:
-            Iodine.attachGraphicsFrameHandler(graphicsFrameHandler);
-            break;
-        case 5:
-            Iodine.attachAudioHandler(audioHandler);
-            break;
-        case 6:
-            Iodine.enableAudio();
-            break;
-        case 7:
-            Iodine.disableAudio();
-            break;
-        case 8:
-            Iodine.toggleSkipBootROM(!!data.payload);
-            break;
-        case 9:
-            Iodine.toggleDynamicSpeed(!!data.payload);
-            break;
-        case 10:
-            Iodine.attachSpeedHandler(speedHandler);
-            break;
-        case 11:
-            Iodine.keyDown(data.payload | 0);
-            break;
-        case 12:
-            Iodine.keyUp(data.payload | 0);
-            break;
-        case 13:
-            Iodine.incrementSpeed(+data.payload);
-            break;
-        case 14:
-            Iodine.setSpeed(+data.payload);
-            break;
-        case 15:
-            Iodine.attachBIOS(data.payload);
-            break;
-        case 16:
-            Iodine.attachROM(data.payload);
-            break;
-        case 17:
-            Iodine.exportSave();
-            break;
-        case 18:
-            Iodine.attachSaveExportHandler(saveExportHandler);
-            break;
-        case 19:
-            Iodine.attachSaveImportHandler(saveImportHandler);
-            break;
-        case 20:
-            processSaveImportSuccess(data.payload);
-            break;
-        case 21:
-            processSaveImportFail();
-            break;
-        case 22:
-            Iodine.toggleOffthreadGraphics(!!data.payload);
-            break;
-        case 23:
-            Iodine.attachPlayStatusHandler(playStatusHandler);
+        let data = event.data;
+        switch (data.messageID | 0) {
+            case 0:
+                Iodine.play();
+                break;
+            case 1:
+                Iodine.pause();
+                break;
+            case 2:
+                Iodine.restart();
+                break;
+            case 3:
+                Iodine.setIntervalRate(+data.payload);
+                changeTimer(data.payload | 0);
+                break;
+            case 4:
+                Iodine.attachGraphicsFrameHandler(graphicsFrameHandler);
+                break;
+            case 5:
+                Iodine.attachAudioHandler(audioHandler);
+                break;
+            case 6:
+                Iodine.enableAudio();
+                break;
+            case 7:
+                Iodine.disableAudio();
+                break;
+            case 8:
+                Iodine.toggleSkipBootROM(!!data.payload);
+                break;
+            case 9:
+                Iodine.toggleDynamicSpeed(!!data.payload);
+                break;
+            case 10:
+                Iodine.attachSpeedHandler(speedHandler);
+                break;
+            case 11:
+                Iodine.keyDown(data.payload | 0);
+                break;
+            case 12:
+                Iodine.keyUp(data.payload | 0);
+                break;
+            case 13:
+                Iodine.incrementSpeed(+data.payload);
+                break;
+            case 14:
+                Iodine.setSpeed(+data.payload);
+                break;
+            case 15:
+                Iodine.attachBIOS(data.payload);
+                break;
+            case 16:
+                Iodine.attachROM(data.payload);
+                break;
+            case 17:
+                Iodine.exportSave();
+                break;
+            case 18:
+                Iodine.attachSaveExportHandler(saveExportHandler);
+                break;
+            case 19:
+                Iodine.attachSaveImportHandler(saveImportHandler);
+                break;
+            case 20:
+                processSaveImportSuccess(data.payload);
+                break;
+            case 21:
+                processSaveImportFail();
+                break;
+            case 22:
+                Iodine.toggleOffthreadGraphics(!!data.payload);
+                break;
+            case 23:
+                Iodine.attachPlayStatusHandler(playStatusHandler);
+        }
+
     }
 }
+
 var graphicsFrameHandler = {
     //Function only called if graphics is THIS thread:
     copyBuffer: function (swizzledFrame) {
@@ -196,13 +221,26 @@ var audioHandler = {
             audioBufferSizeMask = (audioBufferSizeMask << 1) | 1;
         }
         audioBufferSize = ((audioBufferSizeMask | 0) + 1) | 0;
-        audioBuffer = getSharedFloat32Array(audioBufferSize | 0);
-        audioCounters = getSharedInt32Array(2);
+        audioBuffer = tas.getSharedFloat32Array(audioBufferSize | 0);
+        audioCounters = tas.getSharedInt32Array(2);
         try {
-            postMessage({ messageID: 1, channels: channels | 0, sampleRate: +sampleRate, bufferLimit: bufferLimit | 0, audioBuffer: audioBuffer, audioCounters: audioCounters }, [audioBuffer.buffer, audioCounters.buffer]);
-        }
-        catch (e) {
-            postMessage({ messageID: 1, channels: channels | 0, sampleRate: +sampleRate, bufferLimit: bufferLimit | 0, audioBuffer: audioBuffer, audioCounters: audioCounters });
+            postMessage({
+                messageID: 1,
+                channels: channels | 0,
+                sampleRate: +sampleRate,
+                bufferLimit: bufferLimit | 0,
+                audioBuffer: audioBuffer,
+                audioCounters: audioCounters
+            }, [audioBuffer.buffer, audioCounters.buffer]);
+        } catch (e) {
+            postMessage({
+                messageID: 1,
+                channels: channels | 0,
+                sampleRate: +sampleRate,
+                bufferLimit: bufferLimit | 0,
+                audioBuffer: audioBuffer,
+                audioCounters: audioCounters
+            });
         }
     },
     push: function (buffer, startPos, endPos) {
@@ -233,15 +271,15 @@ var audioHandler = {
     },
     register: function () {
         //Register into the audio mixer:
-        postMessage({ messageID: 2 });
+        postMessage({messageID: 2});
     },
     unregister: function () {
         //Unregister from audio mixer:
-        postMessage({ messageID: 3 });
+        postMessage({messageID: 3});
     },
     setBufferSpace: function (spaceContain) {
         //Ensure buffering minimum levels for the audio:
-        postMessage({ messageID: 4, audioBufferContainAmount: spaceContain | 0 });
+        postMessage({messageID: 4, audioBufferContainAmount: spaceContain | 0});
     },
     remainingBuffer: function () {
         //Report the amount of audio samples in-flight:
@@ -256,38 +294,44 @@ var audioHandler = {
         return ringBufferCount | 0;
     }
 };
-function saveImportHandler(saveID, saveCallback, noSaveCallback) {
-    postMessage({ messageID: 5, saveID: saveID });
+
+export function saveImportHandler(saveID, saveCallback, noSaveCallback) {
+    postMessage({messageID: 5, saveID: saveID});
     saveImportPool.push([saveCallback, noSaveCallback]);
 }
-function saveExportHandler(saveID, saveData) {
-    postMessage({ messageID: 6, saveID: saveID, saveData: saveData });
+
+export function saveExportHandler(saveID, saveData) {
+    postMessage({messageID: 6, saveID: saveID, saveData: saveData});
 }
-function speedHandler(speed) {
-    postMessage({ messageID: 7, speed: speed });
+
+export function speedHandler(speed) {
+    postMessage({messageID: 7, speed: speed});
 }
-function processSaveImportSuccess(saveData) {
+
+export function processSaveImportSuccess(saveData) {
     saveImportPool.shift()[0](saveData);
 }
-function processSaveImportFail() {
+
+export function processSaveImportFail() {
     saveImportPool.shift()[1]();
 }
-function playStatusHandler(isPlaying) {
+
+export function playStatusHandler(isPlaying) {
     isPlaying = isPlaying | 0;
-    postMessage({ messageID: 8, playing: (isPlaying | 0) });
+    postMessage({messageID: 8, playing: (isPlaying | 0)});
     if ((isPlaying | 0) == 0) {
         if (timerHandle) {
             clearInterval(timerHandle);
             timerHandle = null;
         }
-    }
-    else {
+    } else {
         if (!timerHandle) {
             initTimer(timerRate | 0);
         }
     }
 }
-function changeTimer(rate) {
+
+export function changeTimer(rate) {
     rate = rate | 0;
     if (timerHandle) {
         clearInterval(timerHandle);
@@ -295,12 +339,12 @@ function changeTimer(rate) {
     }
     timerRate = rate | 0;
 }
-function initTimer(rate) {
+
+export function initTimer(rate) {
     rate = rate | 0;
     if ((rate | 0) > 0) {
         timerHandle = setInterval(function () {
             Iodine.timerCallback(timestamp[0] >>> 0);
         }, rate | 0);
     }
-}
 }

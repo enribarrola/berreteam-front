@@ -11,9 +11,8 @@ import {Component} from "react";
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-export default class TypedArrayShim {
+export default function TypedArrayShim() {
 
-    constructor(params) {
         this.getInt8Array();
         this.getUint8Array();
         this.fgetInt8Array();
@@ -23,27 +22,32 @@ export default class TypedArrayShim {
         this.getInt16Array();
         this.getUint16Array();
         this.fgetUint16View();
+        this.getUint16View();
         this.getInt32Array();
-
+        this.getSharedInt32Array();
         this.fgetInt32View();
         this.fgetInt32ViewCustom();
+        this.getInt32Array();
         this.fgetSharedInt32Array();
         this.fgetUint8ViewCustom();
         this.fgetUint32Array();
-        this.getSharedUint32Array();
-        this.getUint16View();
         this.getFloat32Array();
-        this.getInt32Array();
         this.getSharedFloat32Array();
+        this.getSharedUint32Array();
         this.getArray();
-
-
         this.__VIEWS_SUPPORTED__ = "";
         this.__LITTLE_ENDIAN__ = "";
-
-    }
 }
 
+TypedArrayShim.prototype.getSharedInt32Array = (size_t) => {
+    try {
+        //Compatibility for older Firefox Nightlies:
+        return new SharedInt32Array(size_t);
+    }
+    catch (error) {
+        return new Int32Array(new ArrayBuffer(size_t << 2));
+    }
+}
 TypedArrayShim.prototype.getInt32View = (typed_array) => {
     try {
         return new Int32Array(typed_array.buffer);

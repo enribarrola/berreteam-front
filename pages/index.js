@@ -4,8 +4,9 @@ import Footer from "../components/footer/Footer";
 import GBAPanel from "../components/gba/GBAPanel"
 import GBALoadData from "../components/gba/GBALoadData"
 import GBAEmulator from "../components/gba/GBAEmulator";
+import GBAWorker from "../components/gba/iodinegba-master/IodineGBA/core/Worker";
 export default function Home() {
-
+    new GBAWorker();
     return (<>
         {/* <CustomNavbar /> */}
         <main>
