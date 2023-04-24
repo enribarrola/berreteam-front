@@ -1,7 +1,4 @@
 "use strict";
-
-import { Component } from "react";
-import TypedArrayShim from "../../includes/TypedArrayShim";
 /*
  Copyright (C) 2012-2016 Grant Galitz
 
@@ -11,15 +8,16 @@ import TypedArrayShim from "../../includes/TypedArrayShim";
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
- export default class  GameBoyAdvanceRendererProxy  {
-    constructor(IOCore){
-        this.IOCore = IOCore;
-    } 
+import TypedArrayShim from "../../includes/TypedArrayShim";
+import {getGameBoyAdvanceGraphicsRenderer} from "./RendererShim"
+const tsa = new TypedArrayShim();
+export default function GameBoyAdvanceRendererProxy(IOCore) {
+    this.IOCore = IOCore;
 }
 GameBoyAdvanceRendererProxy.prototype.initialize = function () {
-    this.IOData8 = getUint8Array(20);
-    this.IOData16 = getUint16View(this.IOData8);
-    this.IOData32 = getInt32View(this.IOData8);
+    this.IOData8 = tsa.getUint8Array(20);
+    this.IOData16 = tsa.getUint16View(this.IOData8);
+    this.IOData32 = tsa.getInt32View(this.IOData8);
     this.gfxState = this.IOCore.gfxState;
     this.renderer = getGameBoyAdvanceGraphicsRenderer(this.IOCore.coreExposed, !!this.IOCore.SKIPBoot);
 }
@@ -83,8 +81,7 @@ if (new TypedArrayShim().__LITTLE_ENDIAN__) {
     GameBoyAdvanceRendererProxy.prototype.readDISPCNT32 = function () {
         return this.IOData32[0] | 0;
     }
-}
-else {
+} else {
     GameBoyAdvanceRendererProxy.prototype.writeDISPCNT16 = function (data) {
         data = data | 0;
         data = data & 0xFFF7;
@@ -182,8 +179,7 @@ if (new TypedArrayShim().__LITTLE_ENDIAN__) {
     GameBoyAdvanceRendererProxy.prototype.readBG0BG1CNT32 = function () {
         return this.IOData32[1] | 0;
     }
-}
-else {
+} else {
     GameBoyAdvanceRendererProxy.prototype.writeBG0CNT16 = function (data) {
         data = data | 0;
         data = data & 0xFFCF;
@@ -291,8 +287,7 @@ if (new TypedArrayShim().__LITTLE_ENDIAN__) {
     GameBoyAdvanceRendererProxy.prototype.readBG2BG3CNT32 = function () {
         return this.IOData32[2] | 0;
     }
-}
-else {
+} else {
     GameBoyAdvanceRendererProxy.prototype.writeBG2CNT16 = function (data) {
         data = data | 0;
         data = data & 0xFFCF;
@@ -978,8 +973,7 @@ if (new TypedArrayShim().__LITTLE_ENDIAN__) {
     GameBoyAdvanceRendererProxy.prototype.readWINCONTROL32 = function () {
         return this.IOData32[3] | 0;
     }
-}
-else {
+} else {
     GameBoyAdvanceRendererProxy.prototype.writeWININ16 = function (data) {
         data = data | 0;
         data = data & 0x3F3F;
@@ -1105,8 +1099,7 @@ if (new TypedArrayShim().__LITTLE_ENDIAN__) {
     GameBoyAdvanceRendererProxy.prototype.readBLDCNT32 = function () {
         return this.IOData32[4] | 0;
     }
-}
-else {
+} else {
     GameBoyAdvanceRendererProxy.prototype.writeBLDCNT16 = function (data) {
         data = data | 0;
         data = data & 0x3FFF;
@@ -1161,8 +1154,7 @@ if (typeof Math.imul == "function") {
             this.renderer.writeVRAM8(address | 0, data | 0);
         }
     }
-}
-else {
+} else {
     //Math.imul not found, use the compatibility method:
     GameBoyAdvanceRendererProxy.prototype.writeVRAM8 = function (address, data) {
         address = address | 0;

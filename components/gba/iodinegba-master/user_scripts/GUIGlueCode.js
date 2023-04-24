@@ -9,7 +9,7 @@
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-function registerGUIEvents() {
+export function registerGUIEvents() {
     //Catch any play status changes:
     IodineGUI.Iodine.attachPlayStatusHandler(updatePlayButton);
     //Add DOM events:
@@ -270,7 +270,7 @@ function registerGUIEvents() {
     //Run on init as well:
     resizeCanvasFunc();
 }
-function registerDefaultSettings() {
+export function registerDefaultSettings() {
     if (findValue("sound") === null) {
         setValue("sound", !!IodineGUI.defaults.sound);
     }
@@ -424,7 +424,7 @@ function registerDefaultSettings() {
         IodineGUI.defaults.keyZonesControl[7] = findValue("key_restart");
     }
 }
-function saveKeyBindings() {
+export function saveKeyBindings() {
     setValue("key_a", IodineGUI.defaults.keyZonesGBA[0] | 0);
     setValue("key_b", IodineGUI.defaults.keyZonesGBA[1] | 0);
     setValue("key_select", IodineGUI.defaults.keyZonesGBA[2] | 0);
@@ -444,7 +444,7 @@ function saveKeyBindings() {
     setValue("key_playpause", IodineGUI.defaults.keyZonesControl[6] | 0);
     setValue("key_restart", IodineGUI.defaults.keyZonesControl[7] | 0);
 }
-function registerGUISettings() {
+export function registerGUISettings() {
     document.getElementById("sound").checked = IodineGUI.defaults.sound;
     if (IodineGUI.defaults.sound) {
         IodineGUI.Iodine.enableAudio();
@@ -472,7 +472,7 @@ function registerGUISettings() {
         document.getElementById("offthread-cpu").disabled = true;
     }
 }
-function updatePlayButton(isPlaying) {
+export function updatePlayButton(isPlaying) {
     isPlaying = isPlaying | 0;
     if ((isPlaying | 0) == 1) {
         document.getElementById("play").className = "hide";
@@ -494,19 +494,19 @@ function updatePlayButton(isPlaying) {
         IodineGUI.isPlaying = false;
     }
 }
-function visibilityChangeHandle() {
+export function visibilityChangeHandle() {
     processVisibilityChange(document.hidden);
 }
-function mozVisibilityChangeHandle() {
+export function mozVisibilityChangeHandle() {
     processVisibilityChange(document.mozHidden);
 }
-function msVisibilityChangeHandle() {
+export function msVisibilityChangeHandle() {
     processVisibilityChange(document.msHidden);
 }
-function webkitVisibilityChangeHandle() {
+export function webkitVisibilityChangeHandle() {
     processVisibilityChange(document.webkitHidden);
 }
-function processVisibilityChange(isHidden) {
+export function processVisibilityChange(isHidden) {
     if (!isHidden) {
         if (IodineGUI.suspended) {
             IodineGUI.suspended = false;
@@ -520,23 +520,23 @@ function processVisibilityChange(isHidden) {
         }
     }
 }
-function stepVolume(delta) {
+export function stepVolume(delta) {
     var volume = document.getElementById("volume").value / 100;
     volume = Math.min(Math.max(volume + delta, 0), 1);
     IodineGUI.mixerInput.setVolume(volume);
     document.getElementById("volume").value = Math.round(volume * 100);
 }
-function volChangeFunc() {
+export function volChangeFunc() {
     var volume = Math.min(Math.max(parseInt(this.value), 0), 100) * 0.01;
     setValue("volume", +volume);
     IodineGUI.mixerInput.setVolume(+volume);
 };
-function speedChangeFunc() {
+export function speedChangeFunc() {
     var speed = Math.min(Math.max(parseInt(this.value), 0), 100) / 50;
     speed = speed * speed;
     IodineGUI.Iodine.setSpeed(+speed);
 }
-function writeRedTemporaryText(textString) {
+export function writeRedTemporaryText(textString) {
     if (IodineGUI.GUITimerID) {
         clearTimeout(IodineGUI.GUITimerID);
     }
@@ -544,10 +544,10 @@ function writeRedTemporaryText(textString) {
     document.getElementById("tempMessage").textContent = textString;
     IodineGUI.GUITimerID = setTimeout(clearTempString, 5000);
 }
-function clearTempString() {
+export function clearTempString() {
     document.getElementById("tempMessage").style.display = "none";
 }
-function resizeCanvasFunc() {
+export function resizeCanvasFunc() {
     var container = document.getElementById("main");
     var containerHeight = container.clientHeight || container.offsetHeight || 0;
     var containerWidth = container.clientWidth || container.offsetWidth || 0;
@@ -561,7 +561,7 @@ function resizeCanvasFunc() {
         canvas.style.height = height + "px";
     }
 }
-function rebuildSavesMenu(e) {
+export function rebuildSavesMenu(e) {
     if (didNotEnter(document.getElementById("saves_menu_container"), e)) {
         ExportSave();
         rebuildExistingSaves();
@@ -570,7 +570,7 @@ function rebuildSavesMenu(e) {
         }
     }
 }
-function rebuildExistingSaves() {
+export function rebuildExistingSaves() {
     var menu = document.getElementById("existing_saves_list");
     ExportSave();
     removeChildNodes(menu);
@@ -579,7 +579,7 @@ function rebuildExistingSaves() {
         addExistingSaveItem(menu, keys.shift());
     }
 }
-function addExistingSaveItem(menu, key) {
+export function addExistingSaveItem(menu, key) {
     var listItem = document.createElement("li");
     listItem.className = "nowrap";
     var spanItem = document.createElement("span");
@@ -616,7 +616,7 @@ function addExistingSaveItem(menu, key) {
     listItem.appendChild(submenu);
     menu.appendChild(listItem);
 }
-function decodeKeyType(key) {
+export function decodeKeyType(key) {
     if (key.substring(0, 15) == "SAVE_TYPE_GUID_") {
         return "Game \"" + key.substring(15) + "\" Type Code";
     }
@@ -629,12 +629,12 @@ function decodeKeyType(key) {
     return key;
 }
 //Some wrappers and extensions for non-DOM3 browsers:
-function removeChildNodes(node) {
+export function removeChildNodes(node) {
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
 }
-function didNotEnter(oElement, event) {
+export function didNotEnter(oElement, event) {
     var target = (typeof event.target != "undefined") ? event.target : event.srcElement;
     while (target) {
         if (isSameNode(target, oElement)) {
@@ -644,10 +644,10 @@ function didNotEnter(oElement, event) {
     }
 	return true;
 }
-function isSameNode(oCheck1, oCheck2) {
+export function isSameNode(oCheck1, oCheck2) {
 	return (typeof oCheck1.isSameNode == "function") ? oCheck1.isSameNode(oCheck2) : (oCheck1 === oCheck2);
 }
-function addEvent(sEvent, oElement, fListener) {
+export function addEvent(sEvent, oElement, fListener) {
     try {
         oElement.addEventListener(sEvent, fListener, false);
     }
@@ -655,7 +655,7 @@ function addEvent(sEvent, oElement, fListener) {
         oElement.attachEvent("on" + sEvent, fListener);    //Pity for IE.
     }
 }
-function removeEvent(sEvent, oElement, fListener) {
+export function removeEvent(sEvent, oElement, fListener) {
     try {
         oElement.removeEventListener(sEvent, fListener, false);
     }

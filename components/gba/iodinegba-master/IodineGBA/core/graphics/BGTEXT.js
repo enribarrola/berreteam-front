@@ -8,12 +8,15 @@
  
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GameBoyAdvanceBGTEXTRenderer(gfx, BGLayer) {
+
+import TypedArrayShim from "../../includes/TypedArrayShim";
+const tas = new TypedArrayShim();
+export default function GameBoyAdvanceBGTEXTRenderer(gfx, BGLayer) {
     BGLayer = BGLayer | 0;
     this.gfx = gfx;
     this.BGLayer = BGLayer | 0;
 }
-if (__VIEWS_SUPPORTED__) {
+if (tas.__VIEWS_SUPPORTED__) {
     GameBoyAdvanceBGTEXTRenderer.prototype.initialize = function () {
         this.VRAM = this.gfx.VRAM;
         this.VRAM16 = this.gfx.VRAM16;
@@ -21,8 +24,8 @@ if (__VIEWS_SUPPORTED__) {
         this.palette16 = this.gfx.palette16;
         this.palette256 = this.gfx.palette256;
         this.offset = ((this.BGLayer << 8) + 0x100) | 0;
-        this.scratchBuffer = getInt32ViewCustom(this.gfx.buffer, this.offset | 0, ((this.offset | 0) + 248) | 0);
-        this.tileFetched = getInt32ViewCustom(this.gfx.buffer, ((this.offset | 0) + 0xF8) | 0, ((this.offset | 0) + 0x100) | 0);
+        this.scratchBuffer = tas.fgetInt32ViewCustom(this.gfx.buffer, this.offset | 0, ((this.offset | 0) + 248) | 0);
+        this.tileFetched = tas.fgetInt32ViewCustom(this.gfx.buffer, ((this.offset | 0) + 0xF8) | 0, ((this.offset | 0) + 0x100) | 0);
         this.BGXCoord = 0;
         this.BGYCoord = 0;
         this.do256 = 0;
@@ -109,7 +112,7 @@ else {
         this.offset = (this.BGLayer << 8) + 0x100;
         this.offsetEnd = this.offset + 240;
         this.scratchBuffer = this.gfx.buffer;
-        this.tileFetched = getInt32Array(8);
+        this.tileFetched = tas.getInt32Array(8);
         this.BGXCoord = 0;
         this.BGYCoord = 0;
         this.do256 = 0;
@@ -225,7 +228,7 @@ GameBoyAdvanceBGTEXTRenderer.prototype.render4BITLine = function (yTileStart, xT
     //Render the rest of the tiles fast:
     this.renderWholeTiles4BIT(xTileStart | 0, yTileStart | 0, yTileOffset | 0);
 }
-if (__LITTLE_ENDIAN__) {
+if (tas.__LITTLE_ENDIAN__) {
     GameBoyAdvanceBGTEXTRenderer.prototype.fetchTile = function (yTileStart, xTileStart) {
         yTileStart = yTileStart | 0;
         xTileStart = xTileStart | 0;
@@ -285,7 +288,7 @@ GameBoyAdvanceBGTEXTRenderer.prototype.process4BitVRAM = function (chrData, yOff
     //Copy out our pixels:
     this.render4BitVRAM(chrData >> 8, address | 0);
 }
-if (__LITTLE_ENDIAN__) {
+if (tas.__LITTLE_ENDIAN__) {
     GameBoyAdvanceBGTEXTRenderer.prototype.render4BitVRAM = function (chrData, address) {
         chrData = chrData | 0;
         address = address | 0;
@@ -405,7 +408,7 @@ GameBoyAdvanceBGTEXTRenderer.prototype.process8BitVRAM = function (chrData, yOff
             this.render8BitVRAMFlipped(address | 0);
     }
 }
-if (__LITTLE_ENDIAN__) {
+if (tas.__LITTLE_ENDIAN__) {
     GameBoyAdvanceBGTEXTRenderer.prototype.render8BitVRAMNormal = function (address) {
         address = address | 0;
         if ((address | 0) < 0x4000) {

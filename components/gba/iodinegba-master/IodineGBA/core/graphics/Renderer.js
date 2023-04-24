@@ -8,43 +8,49 @@
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GameBoyAdvanceGraphicsRenderer(coreExposed, skippingBIOS) {
+import TypedArrayShim from "../../includes/TypedArrayShim";
+import {GameBoyAdvanceBGTEXTRenderer} from "./BGTEXT"
+import GameBoyAdvanceAffineBGRenderer from "./AffineBG";
+import {GameBoyAdvanceBGMatrixRenderer} from "./BGMatrix"
+import { GameBoyAdvanceCompositor,GameBoyAdvanceOBJWindowCompositor,GameBoyAdvanceWindowCompositor } from "./Compositor";
+const tsa = new TypedArrayShim();
+export function GameBoyAdvanceGraphicsRenderer(coreExposed, skippingBIOS) {
     this.coreExposed = coreExposed;
     this.initializeIO(!!skippingBIOS);
     this.initializePaletteStorage();
     this.generateRenderers();
     this.initializeRenderers();
 }
-function GameBoyAdvanceGraphicsRendererOffthread(skippingBIOS) {
+export function GameBoyAdvanceGraphicsRendererOffthread(skippingBIOS) {
     this.initializeIO(!!skippingBIOS);
     this.initializePaletteStorage();
     this.generateRenderers();
     this.initializeRenderers();
 }
-if (__VIEWS_SUPPORTED__) {
+if (tsa.__VIEWS_SUPPORTED__) {
     GameBoyAdvanceGraphicsRendererOffthread.prototype.initializeIO = GameBoyAdvanceGraphicsRenderer.prototype.initializeIO = function (skippingBIOS) {
         //Initialize Pre-Boot:
         this.displayControl = 0x80;
         this.display = 0;
         this.greenSwap = 0;
         this.WINOutside = 0;
-        this.paletteRAM = getUint8Array(0x400);
-        this.VRAM = getUint8Array(0x18000);
-        this.VRAM16 = getUint16View(this.VRAM);
-        this.VRAM32 = getInt32View(this.VRAM);
-        this.paletteRAM16 = getUint16View(this.paletteRAM);
-        this.paletteRAM32 = getInt32View(this.paletteRAM);
+        this.paletteRAM = tas.getUint8Array(0x400);
+        this.VRAM = tas.getUint8Array(0x18000);
+        this.VRAM16 = tas.getUint16View(this.VRAM);
+        this.VRAM32 = tas.getInt32View(this.VRAM);
+        this.paletteRAM16 = tas.getUint16View(this.paletteRAM);
+        this.paletteRAM32 = tas.getInt32View(this.paletteRAM);
         //Check for SIMD support:
         if (typeof SIMD == "object" && typeof SIMD.Int32x4 == "function") {
             //We bounce effects logic through some copies:
-            this.buffer = getInt32Array(0x900);
+            this.buffer = tas.getInt32Array(0x900);
         }
         else {
-            this.buffer = getInt32Array(0x680);
+            this.buffer = tas.getInt32Array(0x680);
         }
-        this.lineBuffer = getInt32ViewCustom(this.buffer, 0, 240);
-        this.frameBuffer = getInt32Array(38400);        //The internal buffer to composite to.
-        this.swizzledFrame = getUint8Array(115200);     //The swizzled output buffer that syncs to the internal framebuffer on v-blank.
+        this.lineBuffer = tas.fgetInt32ViewCustom(this.buffer, 0, 240);
+        this.frameBuffer = tas.getInt32Array(38400);        //The internal buffer to composite to.
+        this.swizzledFrame = tas.getUint8Array(115200);     //The swizzled output buffer that syncs to the internal framebuffer on v-blank.
         this.totalLinesPassed = 0;
         this.queuedScanLines = 0;
         this.lastUnrenderedLine = 0;
@@ -62,15 +68,15 @@ else {
         this.display = 0;
         this.greenSwap = 0;
         this.WINOutside = 0;
-        this.paletteRAM = getUint8Array(0x400);
-        this.VRAM = getUint8Array(0x18000);
-        this.VRAM16 = getUint16View(this.VRAM);
-        this.VRAM32 = getInt32View(this.VRAM);
-        this.paletteRAM16 = getUint16View(this.paletteRAM);
-        this.paletteRAM32 = getInt32View(this.paletteRAM);
-        this.buffer = getInt32Array(0x680);
-        this.frameBuffer = getInt32Array(38400);        //The internal buffer to composite to.
-        this.swizzledFrame = getUint8Array(115200);     //The swizzled output buffer that syncs to the internal framebuffer on v-blank.
+        this.paletteRAM = tas.getUint8Array(0x400);
+        this.VRAM = tas.getUint8Array(0x18000);
+        this.VRAM16 = tas.getUint16View(this.VRAM);
+        this.VRAM32 = tas.getInt32View(this.VRAM);
+        this.paletteRAM16 = tas.getUint16View(this.paletteRAM);
+        this.paletteRAM32 = tas.getInt32View(this.paletteRAM);
+        this.buffer = tas.getInt32Array(0x680);
+        this.frameBuffer = tas.getInt32Array(38400);        //The internal buffer to composite to.
+        this.swizzledFrame = tas.getUint8Array(115200);     //The swizzled output buffer that syncs to the internal framebuffer on v-blank.
         this.totalLinesPassed = 0;
         this.queuedScanLines = 0;
         this.lastUnrenderedLine = 0;
@@ -363,7 +369,7 @@ if (typeof Math.imul == "function") {
             this.copyLineToFrameBufferGreenSwapped(offsetStart | 0);
         }
     }
-    if (__LITTLE_ENDIAN__ && typeof Uint8Array.prototype.fill == "function") {
+    if (tas.__LITTLE_ENDIAN__ && typeof Uint8Array.prototype.fill == "function") {
         GameBoyAdvanceGraphicsRendererOffthread.prototype.renderForcedBlank = GameBoyAdvanceGraphicsRenderer.prototype.renderForcedBlank = function (line) {
             line = line | 0;
             var offsetStart = Math.imul(line | 0, 240) | 0;
@@ -405,7 +411,7 @@ else {
         }
     }
 }
-if (__VIEWS_SUPPORTED__ && typeof Uint8Array.prototype.set == "function") {
+if (tas.__VIEWS_SUPPORTED__ && typeof Uint8Array.prototype.set == "function") {
     GameBoyAdvanceGraphicsRendererOffthread.prototype.copyLineToFrameBufferNormal = GameBoyAdvanceGraphicsRenderer.prototype.copyLineToFrameBufferNormal = function (offsetStart) {
         offsetStart = offsetStart | 0;
         //Render a line:
@@ -1226,7 +1232,7 @@ GameBoyAdvanceGraphicsRendererOffthread.prototype.writeBLDY8 = GameBoyAdvanceGra
     this.graphicsJIT();
     this.colorEffectsRenderer.writeBLDY8(data | 0);
 }
-if (__LITTLE_ENDIAN__) {
+if (tas.__LITTLE_ENDIAN__) {
     GameBoyAdvanceGraphicsRendererOffthread.prototype.writeVRAM8 = GameBoyAdvanceGraphicsRenderer.prototype.writeVRAM8 =
     GameBoyAdvanceGraphicsRendererOffthread.prototype.writeVRAM16 = GameBoyAdvanceGraphicsRenderer.prototype.writeVRAM16 = function (address, data) {
         address = address | 0;

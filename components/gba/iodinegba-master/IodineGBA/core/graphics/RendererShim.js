@@ -8,7 +8,9 @@
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
- function getGameBoyAdvanceGraphicsRenderer(coreExposed, skippingBIOS) {
+import TypedArrayShim from "../../includes/TypedArrayShim";
+const tsa = new TypedArrayShim();
+ export function getGameBoyAdvanceGraphicsRenderer(coreExposed, skippingBIOS) {
      if (!coreExposed.offthreadGfxEnabled() || typeof SharedArrayBuffer != "function" || typeof Atomics != "object") {
          return new GameBoyAdvanceGraphicsRenderer(coreExposed, skippingBIOS);
      }
@@ -22,7 +24,7 @@
 		 }
      }
  }
- function GameBoyAdvanceGraphicsRendererShim(coreExposed, skippingBIOS) {
+ export function GameBoyAdvanceGraphicsRendererShim(coreExposed, skippingBIOS) {
      this.coreExposed = coreExposed;
      this.initializeWorker(skippingBIOS);
      this.appendAtomicSync();
@@ -765,7 +767,7 @@ GameBoyAdvanceGraphicsRendererShim.prototype.writeBLDY8 = function (data) {
     data = data | 0;
     this.pushCommand(135, data | 0);
 }
-if (__LITTLE_ENDIAN__) {
+if (tsa.__LITTLE_ENDIAN__) {
     GameBoyAdvanceGraphicsRendererShim.prototype.writeVRAM8 =
     GameBoyAdvanceGraphicsRendererShim.prototype.writeVRAM16 = function (address, data) {
         address = address | 0;

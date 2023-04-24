@@ -8,7 +8,10 @@
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GameBoyAdvanceOBJRenderer(gfx) {
+import TypedArrayShim from "../../includes/TypedArrayShim";
+const tas = new TypedArrayShim();
+
+export function GameBoyAdvanceOBJRenderer(gfx) {
     this.gfx = gfx;
 }
 GameBoyAdvanceOBJRenderer.prototype.lookupXSize = [
@@ -27,7 +30,7 @@ GameBoyAdvanceOBJRenderer.prototype.lookupYSize = [
     //Horizontal Rectangle:
     16, 32, 32, 64
 ];
-if (__VIEWS_SUPPORTED__) {
+if (tas.__VIEWS_SUPPORTED__) {
     if (typeof getUint8Array(1).fill == "function") {
         GameBoyAdvanceOBJRenderer.prototype.initialize = function () {
             this.paletteOBJ256 = this.gfx.paletteOBJ256;
@@ -565,7 +568,7 @@ GameBoyAdvanceOBJRenderer.prototype.renderNormalSpriteOBJWIN = function (sprite,
         this.render16ColorPaletteSpriteOBJWIN(address | 0, xSize | 0);
     }
 }
-if (__LITTLE_ENDIAN__) {
+if (tas.__LITTLE_ENDIAN__) {
     GameBoyAdvanceOBJRenderer.prototype.render256ColorPaletteSprite = function (address, xSize) {
         address = address >> 2;
         xSize = xSize | 0;
@@ -862,7 +865,7 @@ GameBoyAdvanceOBJRenderer.prototype.setHBlankIntervalFreeStatus = function (data
 GameBoyAdvanceOBJRenderer.prototype.readOAM = function (address) {
     return this.OAMRAM[address & 0x3FF] | 0;
 }
-if (__LITTLE_ENDIAN__) {
+if (tas.__LITTLE_ENDIAN__) {
     GameBoyAdvanceOBJRenderer.prototype.writeOAM16 = function (address, data) {
         address = address | 0;
         data = data | 0;

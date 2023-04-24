@@ -1,22 +1,21 @@
-"use strict";
 /*
  Copyright (C) 2012-2016 Grant Galitz
 
- Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ Permission is hereby granted, fsree of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GameBoyAdvanceCompositor(gfx) {
+export function GameBoyAdvanceCompositor(gfx) {
     this.gfx = gfx;
     this.doEffects = 0;
 }
-function GameBoyAdvanceWindowCompositor(gfx) {
+export function GameBoyAdvanceWindowCompositor(gfx) {
     this.gfx = gfx;
     this.doEffects = 0;
 }
-function GameBoyAdvanceOBJWindowCompositor(gfx) {
+export function GameBoyAdvanceOBJWindowCompositor(gfx) {
     this.gfx = gfx;
     this.doEffects = 0;
 }
@@ -61,7 +60,7 @@ if (typeof SIMD == "object" && typeof SIMD.Int32x4 == "function") {
     GameBoyAdvanceCompositor.prototype.mask3 = SIMD.Int32x4.splat(0x1800000);
     GameBoyAdvanceCompositor.prototype.mask4 = SIMD.Bool32x4.splat(true);
 }
-function generateIodineGBAGFXCompositors() {
+export function generateIodineGBAGFXCompositors() {
     function generateCompositors() {
         function generateLoop(compositeType, doEffects, layers) {
             function generateLoopHead(useVectorized, compositeType) {
@@ -947,3 +946,5 @@ function generateIodineGBAGFXCompositors() {
     generateDispatches();
 }
 generateIodineGBAGFXCompositors();
+
+

@@ -8,7 +8,10 @@
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GlueCodeMixer(playButton) {
+import TypedArrayShim from "../IodineGBA/includes/TypedArrayShim";
+const tas = new  TypedArrayShim();
+
+export function GlueCodeMixer(playButton) {
     var parentObj = this;
     this.audio = new XAudioServer(2, this.sampleRate, 0, this.bufferAmount, null, function () {
         parentObj.checkHeartbeats();
@@ -100,7 +103,7 @@ GlueCodeMixer.prototype.findLowestBufferCount = function () {
 GlueCodeMixer.prototype.disableAudio = function () {
     this.audio = null;
 }
-function GlueCodeMixerInput(mixer) {
+export function GlueCodeMixerInput(mixer) {
     this.mixer = mixer;
     this.volume = 1;
 }
@@ -156,7 +159,7 @@ GlueCodeMixerInput.prototype.unregister = function () {
 GlueCodeMixerInput.prototype.setBufferSpace = function (bufferAmount) {
     this.buffer.setBufferSpace(bufferAmount);
 }
-function AudioBufferWrapper(channelCount,
+export function AudioBufferWrapper(channelCount,
                             mixerChannelCount,
                             bufferAmount,
                             sampleRate,
@@ -170,10 +173,10 @@ function AudioBufferWrapper(channelCount,
 }
 AudioBufferWrapper.prototype.initialize = function () {
     this.inBufferSize = this.bufferAmount * this.mixerChannelCount;
-    this.inBuffer = getFloat32Array(this.inBufferSize);
+    this.inBuffer = tas.getFloat32Array(this.inBufferSize);
     this.resampler = new Resampler(this.sampleRate, this.mixerSampleRate, this.mixerChannelCount, this.inBuffer);
     this.outBufferSize = this.resampler.outputBuffer.length;
-    this.outBuffer = getFloat32Array(this.outBufferSize);
+    this.outBuffer = tas.getFloat32Array(this.outBufferSize);
     this.inputOffset = 0;
     this.resampleBufferStart = 0;
     this.resampleBufferEnd = 0;
@@ -263,12 +266,12 @@ AudioBufferWrapper.prototype.remainingBuffer = function () {
 AudioBufferWrapper.prototype.resampledSamplesLeft = function () {
     return ((this.resampleBufferStart <= this.resampleBufferEnd) ? 0 : this.outBufferSize) + this.resampleBufferEnd - this.resampleBufferStart;
 }
-function AudioSimpleBuffer(channelCount, bufferAmount) {
+export function AudioSimpleBuffer(channelCount, bufferAmount) {
     this.channelCount = channelCount;
     this.bufferAmount = bufferAmount;
     this.outBufferSize = this.channelCount * this.bufferAmount;
     this.stackLength = 0;
-    this.buffer = getFloat32Array(this.outBufferSize);
+    this.buffer = tas.getFloat32Array(this.outBufferSize);
 }
 AudioSimpleBuffer.prototype.push = function (data) {
     if (this.stackLength < this.outBufferSize) {
@@ -281,6 +284,3 @@ AudioSimpleBuffer.prototype.count = function () {
 AudioSimpleBuffer.prototype.reset = function () {
     this.stackLength = 0;
 }
-export default AudioSimpleBuffer ; 
-export default AudioBufferWrapper;
-export default GlueCodeMixerInput; 

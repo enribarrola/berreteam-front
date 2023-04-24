@@ -8,7 +8,8 @@
  
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GameBoyAdvanceChannel3Synth(sound) {
+import TypedArrayShim from "../../includes/TypedArrayShim";
+export default function GameBoyAdvanceChannel3Synth(sound) {
     this.sound = sound;
     this.currentSampleLeft = 0;
     this.currentSampleRight = 0;
@@ -31,12 +32,12 @@ function GameBoyAdvanceChannel3Synth(sound) {
     this.nr33 = 0;
     this.nr34 = 0;
     this.cachedSample = 0;
-    this.PCM = getInt8Array(0x40);
-    this.PCM16 = getUint16View(this.PCM);
-    this.PCM32 = getInt32View(this.PCM);
-    this.WAVERAM8 = getUint8Array(0x20);
-    this.WAVERAM16 = getUint16View(this.WAVERAM8);
-    this.WAVERAM32 = getInt32View(this.WAVERAM8);
+    this.PCM = new TypedArrayShim().getInt8Array(0x40);
+    this.PCM16 = new TypedArrayShim().getUint16View(this.PCM);
+    this.PCM32 = new TypedArrayShim().getInt32View(this.PCM);
+    this.WAVERAM8 = new TypedArrayShim().getUint8Array(0x20);
+    this.WAVERAM16 = new TypedArrayShim().getUint16View(this.WAVERAM8);
+    this.WAVERAM32 = new TypedArrayShim().getInt32View(this.WAVERAM8);
 }
 GameBoyAdvanceChannel3Synth.prototype.disabled = function () {
     //Clear NR30:
@@ -100,7 +101,7 @@ GameBoyAdvanceChannel3Synth.prototype.readWAVE8 = function (address) {
     address = ((address | 0) + (this.WAVERAMBankAccessed >> 1)) | 0;
     return this.WAVERAM8[address | 0] | 0;
 }
-if (__LITTLE_ENDIAN__) {
+if (new TypedArrayShim().__LITTLE_ENDIAN__) {
     GameBoyAdvanceChannel3Synth.prototype.writeWAVE8 = function (address, data) {
         address = address | 0;
         data = data | 0;

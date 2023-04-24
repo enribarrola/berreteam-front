@@ -8,7 +8,9 @@
  
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GameBoyAdvanceMosaicRenderer(buffer) {
+import TypedArrayShim from "../../includes/TypedArrayShim";
+const tas = TypedArrayShim();
+export function GameBoyAdvanceMosaicRenderer(buffer) {
     this.BGMosaicHSize = 0;
     this.BGMosaicVSize = 0;
     this.OBJMosaicHSize = 0;
@@ -34,7 +36,7 @@ GameBoyAdvanceMosaicRenderer.prototype.renderMosaicHorizontal = function (offset
         }
     }
 }
-if (__VIEWS_SUPPORTED__) {
+if (tas.__VIEWS_SUPPORTED__) {
     GameBoyAdvanceMosaicRenderer.prototype.renderOBJMosaicHorizontal = function (xOffset, xSize) {
         xOffset = xOffset | 0;
         xSize = xSize | 0;

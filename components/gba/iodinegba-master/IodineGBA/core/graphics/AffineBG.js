@@ -8,13 +8,15 @@
  
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GameBoyAdvanceAffineBGRenderer(gfx, BGLayer) {
+import TypedArrayShim from "../../includes/TypedArrayShim";
+const tas = new TypedArrayShim();
+ export default function GameBoyAdvanceAffineBGRenderer(gfx, BGLayer) {
     BGLayer = BGLayer | 0;
     this.gfx = gfx;
-    this.BGLayer = BGLayer | 0;
+    this.BGLayer =   BGLayer | 0;
     this.offset = ((this.BGLayer << 8) + 0x100) | 0;
 }
-if (__VIEWS_SUPPORTED__) {
+if (tas.__VIEWS_SUPPORTED__) {
     GameBoyAdvanceAffineBGRenderer.prototype.initialize = function () {
         this.bg2MatrixRenderer = this.gfx.bg2MatrixRenderer;
         this.bg3MatrixRenderer = this.gfx.bg3MatrixRenderer;

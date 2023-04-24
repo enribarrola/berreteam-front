@@ -1,6 +1,6 @@
 // "use strict";
 
-import { Component } from "react";
+import {Component} from "react";
 
 /*
  Copyright (C) 2012-2015 Grant Galitz
@@ -14,6 +14,8 @@ import { Component } from "react";
 export default class TypedArrayShim {
 
     constructor(params) {
+        this.getInt8Array();
+        this.getUint8Array();
         this.fgetInt8Array();
         this.fgetUint8Array();
         this.fgetUint8View();
@@ -31,6 +33,7 @@ export default class TypedArrayShim {
         this.getSharedUint32Array();
         this.getUint16View();
         this.getFloat32Array();
+        this.getInt32Array();
         this.getSharedFloat32Array();
         this.getArray();
 
@@ -40,27 +43,46 @@ export default class TypedArrayShim {
 
     }
 }
+
+TypedArrayShim.prototype.getInt32View = (typed_array) => {
+    try {
+        return new Int32Array(typed_array.buffer);
+    } catch (error) {
+        return null;
+    }
+}
+TypedArrayShim.prototype.getInt8Array = (size_t) => {
+    try {
+        return new Int8Array(size_t);
+    } catch (error) {
+        return getArray(size_t);
+    }
+}
+TypedArrayShim.prototype.getUint8Array = (size_t) => {
+    try {
+        return new Uint8Array(size_t)
+    } catch (error) {
+        return this.getArray(size_t)
+    }
+}
 TypedArrayShim.prototype.fgetInt8Array = (size_t) => {
     try {
         return new Int8Array(size_t);
-    }
-    catch (error) {
+    } catch (error) {
         return this.getArray(size_t);
     }
 }
 TypedArrayShim.prototype.fgetUint8Array = (size_t) => {
     try {
         return new Uint8Array(size_t);
-    }
-    catch (error) {
+    } catch (error) {
         return this.getArray(size_t);
     }
 }
 TypedArrayShim.prototype.fgetUint8View = (typed_array) => {
     try {
         return new Uint8Array(typed_array.buffer);
-    }
-    catch (error) {
+    } catch (error) {
         return null;
     }
 
@@ -69,12 +91,11 @@ TypedArrayShim.prototype.getSharedUint8Array = (size_t) => {
     try {
         //Compatibility for older Firefox Nightlies:
         return new SharedUint8Array(size_t);
-    }
-    catch (error) {
+    } catch (error) {
         try {
             return new Uint8Array(new SharedArrayBuffer(size_t));
         } catch (error) {
-            console.log("error.TypedArrayShim.SharedArrayBuffer.getSharedUint8Array");
+            // console.log("error.TypedArrayShim.SharedArrayBuffer.getSharedUint8Array");
             return new Uint8Array(new ArrayBuffer(size_t))
         }
     }
@@ -83,12 +104,11 @@ TypedArrayShim.prototype.fgetSharedInt32Array = (size_t) => {
     try {
         //Compatibility for older Firefox Nightlies:
         return new SharedInt32Array(size_t);
-    }
-    catch (error) {
+    } catch (error) {
         try {
             return new Int32Array(new SharedArrayBuffer(size_t << 2));
         } catch (error) {
-            console.log("error.TypedArrayShim.SharedArrayBuffer.fgetSharedInt32Array");
+            // console.log("error.TypedArrayShim.SharedArrayBuffer.fgetSharedInt32Array");
             return new Uint8Array(new ArrayBuffer(size_t))
         }
     }
@@ -96,24 +116,21 @@ TypedArrayShim.prototype.fgetSharedInt32Array = (size_t) => {
 TypedArrayShim.prototype.fgetUint16View = (typed_array) => {
     try {
         return new Uint16Array(typed_array.buffer);
-    }
-    catch (error) {
+    } catch (error) {
         return null;
     }
 }
 TypedArrayShim.prototype.fgetUint32Array = (size_t) => {
     try {
         return new Uint32Array(size_t);
-    }
-    catch (error) {
+    } catch (error) {
         return this.getArray(size_t);
     }
 }
 TypedArrayShim.prototype.fgetInt32View = (typed_array) => {
     try {
         return new Int32Array(typed_array.buffer);
-    }
-    catch (error) {
+    } catch (error) {
         return null;
     }
 }
@@ -121,13 +138,11 @@ TypedArrayShim.prototype.fgetInt32ViewCustom = (typed_array, start, end) => {
     try {
         typed_array = this.getInt32View(typed_array);
         return typed_array.subarray(start, end);
-    }
-    catch (error) {
+    } catch (error) {
         try {
             //Nightly Firefox 4 used to have the subarray function named as slice:
             return typed_array.slice(start, end);
-        }
-        catch (error) {
+        } catch (error) {
             return null;
         }
     }
@@ -136,13 +151,11 @@ TypedArrayShim.prototype.fgetUint8ViewCustom = (typed_array, start, end) => {
     try {
         typed_array = this.getUint8View(typed_array);
         return typed_array.subarray(start, end);
-    }
-    catch (error) {
+    } catch (error) {
         try {
             //Nightly Firefox 4 used to have the subarray function named as slice:
             return typed_array.slice(start, end);
-        }
-        catch (error) {
+        } catch (error) {
             return null;
         }
     }
@@ -150,8 +163,7 @@ TypedArrayShim.prototype.fgetUint8ViewCustom = (typed_array, start, end) => {
 TypedArrayShim.prototype.getInt16Array = (size_t) => {
     try {
         return new Int16Array(size_t);
-    }
-    catch (error) {
+    } catch (error) {
         return this.getArray(size_t);
     }
 }
@@ -160,12 +172,11 @@ TypedArrayShim.prototype.getSharedUint32Array = (size_t) => {
     try {
         //Compatibility for older Firefox Nightlies:
         return new SharedUint32Array(size_t);
-    }
-    catch (error) {
+    } catch (error) {
         try {
             return new Uint32Array(new SharedArrayBuffer(size_t << 2));
         } catch (error) {
-            console.log("error.TypedArrayShim.SharedArrayBuffer.getSharedUint32Array");
+            // console.log("error.TypedArrayShim.SharedArrayBuffer.getSharedUint32Array");
             return new Uint8Array(new ArrayBuffer(size_t))
         }
     }
@@ -174,32 +185,28 @@ TypedArrayShim.prototype.getSharedUint32Array = (size_t) => {
 TypedArrayShim.prototype.getUint16View = (typed_array) => {
     try {
         return new Uint16Array(typed_array.buffer);
-    }
-    catch (error) {
+    } catch (error) {
         return null;
     }
 }
 TypedArrayShim.prototype.getInt32Array = (size_t) => {
     try {
         return new Int32Array(size_t);
-    }
-    catch (error) {
+    } catch (error) {
         return this.getArray(size_t);
     }
 }
 TypedArrayShim.prototype.getUint16Array = (size_t) => {
     try {
         return new Uint16Array(size_t);
-    }
-    catch (error) {
+    } catch (error) {
         return this.getArray(size_t);
     }
 }
 TypedArrayShim.prototype.getFloat32Array = (size_t) => {
     try {
         return new Float32Array(size_t);
-    }
-    catch (error) {
+    } catch (error) {
         return this.getArray(size_t);
     }
 }
@@ -207,12 +214,11 @@ TypedArrayShim.prototype.getSharedFloat32Array = (size_t) => {
     try {
         //Compatibility for older Firefox Nightlies:
         return new SharedFloat32Array(size_t);
-    }
-    catch (error) {
+    } catch (error) {
         try {
             return new Float32Array(new SharedArrayBuffer(size_t << 2));
         } catch (error) {
-            console.log("error.TypedArrayShim.SharedArrayBuffer.getSharedFloat32Array");
+            // console.log("error.TypedArrayShim.SharedArrayBuffer.getSharedFloat32Array");
             return new Uint8Array(new ArrayBuffer(size_t))
         }
     }
@@ -243,8 +249,7 @@ if (typeof Atomics == "object") {
         //Polyfill in deprecated call names:
         Atomics.wait = Atomics.futexWait;
         Atomics.notify = Atomics.futexWake;
-    }
-    else if (typeof Atomics.wake == "function" && typeof Atomics.notify == "undefined") {
+    } else if (typeof Atomics.wake == "function" && typeof Atomics.notify == "undefined") {
         //Polyfill in deprecated call names:
         Atomics.notify = Atomics.wake;
     }

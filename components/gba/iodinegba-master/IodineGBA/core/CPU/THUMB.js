@@ -8,7 +8,8 @@
  
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function THUMBInstructionSet(CPUCore) {
+import TypedArrayShim from "../../includes/TypedArrayShim";
+export default function THUMBInstructionSet(CPUCore) {
     this.CPUCore = CPUCore;
     this.initialize();
 }
@@ -1313,7 +1314,7 @@ THUMBInstructionSet.prototype.UNDEFINED = function () {
 }
 function compileTHUMBInstructionDecodeMap() {
     var opcodeIndice = 0;
-    var instructionMap = getUint8Array(1024);
+    var instructionMap = new TypedArrayShim().getUint8Array(1024);
     function generateLowMap(instruction) {
         for (var index = 0; index < 0x20; ++index) {
             instructionMap[opcodeIndice++] = instruction;

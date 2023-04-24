@@ -76,10 +76,10 @@ export default class GBAWorker {
         this.timerRate = 0;
         //Pass the shared array buffers:
         try {
-            this.postMessage({ messageID: 0, gfxBuffer1: gfxBuffers[0], gfxBuffer2: gfxBuffers[1], gfxCounters: gfxCounters, audioSamplesRemaining: audioSamplesRemaining, timestamp: timestamp }, [gfxBuffers[0].buffer, gfxBuffers[1].buffer, gfxCounters.buffer, audioSamplesRemaining.buffer, timestamp.buffer]);
+            postMessage({ messageID: 0, gfxBuffer1: gfxBuffers[0], gfxBuffer2: gfxBuffers[1], gfxCounters: gfxCounters, audioSamplesRemaining: audioSamplesRemaining, timestamp: timestamp }, [gfxBuffers[0].buffer, gfxBuffers[1].buffer, gfxCounters.buffer, audioSamplesRemaining.buffer, timestamp.buffer]);
         }
         catch (e) {
-            this.postMessage({ messageID: 0, gfxBuffer1: gfxBuffers[0], gfxBuffer2: gfxBuffers[1], gfxCounters: gfxCounters, audioSamplesRemaining: audioSamplesRemaining, timestamp: timestamp });
+            postMessage({ messageID: 0, gfxBuffer1: gfxBuffers[0], gfxBuffer2: gfxBuffers[1], gfxCounters: gfxCounters, audioSamplesRemaining: audioSamplesRemaining, timestamp: timestamp });
         }        
     }
 

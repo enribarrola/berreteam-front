@@ -9,10 +9,12 @@
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import CoreGlueCode from "./CoreGlueCode";
+
 export default class ROMLoadGlueCode extends CoreGlueCode{
 
-    constructor (params){
-        super(params)
+    constructor (props){
+        super(props)
     }
 
     attachBIOS(BIOS) {
@@ -59,10 +61,10 @@ export default class ROMLoadGlueCode extends CoreGlueCode{
         }
     }
      fileLoadBIOS() {
-        fileLoadShimCode(this.files, attachBIOS);
+        this.fileLoadShimCode(this.files, attachBIOS);
     }
      fileLoadROM() {
-        fileLoadShimCode(this.files, attachROM);
+        this.fileLoadShimCode(this.files, attachROM);
     }
      downloadFile(fileName, registrationHandler) {
         var ajax = new XMLHttpRequest();

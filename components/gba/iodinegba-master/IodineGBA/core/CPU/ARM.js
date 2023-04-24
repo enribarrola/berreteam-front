@@ -8,7 +8,8 @@
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function ARMInstructionSet(CPUCore) {
+import TypedArrayShim from "../../includes/TypedArrayShim";
+export default function ARMInstructionSet(CPUCore) {
     this.CPUCore = CPUCore;
     this.initialize();
 }
@@ -2830,7 +2831,7 @@ function compileARMInstructionDecodeMap() {
                        ];
     function compileARMInstructionDecodeOpcodeMap(codeMap) {
         var opcodeIndice = 0;
-        var instructionMap = getUint8Array(4096);
+        var instructionMap = new TypedArrayShim().getUint8Array(4096);
         function generateMap1(instruction) {
             for (var index = 0; index < 0x10; ++index) {
                 instructionMap[opcodeIndice++] = codeMap[instruction[index]];

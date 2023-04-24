@@ -8,7 +8,8 @@
  
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GameBoyAdvanceChannel4Synth(sound) {
+import TypedArrayShim from "../../includes/TypedArrayShim";
+export default function GameBoyAdvanceChannel4Synth(sound) {
     this.sound = sound;
     this.currentSampleLeft = 0;
     this.currentSampleRight = 0;
@@ -38,7 +39,7 @@ GameBoyAdvanceChannel4Synth.prototype.intializeWhiteNoise = function () {
     //Noise Sample Tables:
     var randomFactor = 1;
     //15-bit LSFR Cache Generation:
-    this.LSFR15Table = getInt8Array(0x80000);
+    this.LSFR15Table = new TypedArrayShim().getInt8Array(0x80000);
     var LSFR = 0x7FFF;    //Seed value has all its bits set.
     var LSFRShifted = 0x3FFF;
     for (var index = 0; index < 0x8000; ++index) {
@@ -65,7 +66,7 @@ GameBoyAdvanceChannel4Synth.prototype.intializeWhiteNoise = function () {
         LSFR = LSFRShifted | (((LSFRShifted ^ LSFR) & 0x1) << 14);
     }
     //7-bit LSFR Cache Generation:
-    this.LSFR7Table = getInt8Array(0x800);
+    this.LSFR7Table = new TypedArrayShim().getInt8Array(0x800);
     LSFR = 0x7F;    //Seed value has all its bits set.
     for (index = 0; index < 0x80; ++index) {
         //Normalize the last LSFR value for usage:

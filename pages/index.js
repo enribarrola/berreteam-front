@@ -3,7 +3,9 @@ import CustomNavbar from "../components/nav/CustomNavbar";
 import Footer from "../components/footer/Footer";
 import GBAPanel from "../components/gba/GBAPanel"
 import GBALoadData from "../components/gba/GBALoadData"
+import GBAEmulator from "../components/gba/GBAEmulator";
 export default function Home() {
+
     return (<>
         {/* <CustomNavbar /> */}
         <main>
@@ -14,6 +16,7 @@ export default function Home() {
                         <GBAPanel>
                             
                         </GBAPanel>
+                        <GBAEmulator />
                      
                     </ul>
                 </div>

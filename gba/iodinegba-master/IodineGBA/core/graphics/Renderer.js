@@ -8,20 +8,22 @@
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GameBoyAdvanceGraphicsRenderer(coreExposed, skippingBIOS) {
+import TypedArrayShim from "../../../../../components/gba/iodinegba-master/IodineGBA/includes/TypedArrayShim";
+const tsa = new TypedArrayShim();
+export function GameBoyAdvanceGraphicsRenderer(coreExposed, skippingBIOS) {
     this.coreExposed = coreExposed;
     this.initializeIO(!!skippingBIOS);
     this.initializePaletteStorage();
     this.generateRenderers();
     this.initializeRenderers();
 }
-function GameBoyAdvanceGraphicsRendererOffthread(skippingBIOS) {
+export function GameBoyAdvanceGraphicsRendererOffthread(skippingBIOS) {
     this.initializeIO(!!skippingBIOS);
     this.initializePaletteStorage();
     this.generateRenderers();
     this.initializeRenderers();
 }
-if (__VIEWS_SUPPORTED__) {
+if (tsa.__VIEWS_SUPPORTED__) {
     GameBoyAdvanceGraphicsRendererOffthread.prototype.initializeIO = GameBoyAdvanceGraphicsRenderer.prototype.initializeIO = function (skippingBIOS) {
         //Initialize Pre-Boot:
         this.displayControl = 0x80;
@@ -62,15 +64,15 @@ else {
         this.display = 0;
         this.greenSwap = 0;
         this.WINOutside = 0;
-        this.paletteRAM = getUint8Array(0x400);
-        this.VRAM = getUint8Array(0x18000);
-        this.VRAM16 = getUint16View(this.VRAM);
-        this.VRAM32 = getInt32View(this.VRAM);
-        this.paletteRAM16 = getUint16View(this.paletteRAM);
-        this.paletteRAM32 = getInt32View(this.paletteRAM);
-        this.buffer = getInt32Array(0x680);
-        this.frameBuffer = getInt32Array(38400);        //The internal buffer to composite to.
-        this.swizzledFrame = getUint8Array(115200);     //The swizzled output buffer that syncs to the internal framebuffer on v-blank.
+        this.paletteRAM = tsa.getUint8Array(0x400);
+        this.VRAM = tsa.getUint8Array(0x18000);
+        this.VRAM16 = tsa.getUint16View(this.VRAM);
+        this.VRAM32 = tsa.getInt32View(this.VRAM);
+        this.paletteRAM16 = tsa.getUint16View(this.paletteRAM);
+        this.paletteRAM32 = tsa.getInt32View(this.paletteRAM);
+        this.buffer = tsa.getInt32Array(0x680);
+        this.frameBuffer = tsa.getInt32Array(38400);        //The internal buffer to composite to.
+        this.swizzledFrame = tsa.getUint8Array(115200);     //The swizzled output buffer that syncs to the internal framebuffer on v-blank.
         this.totalLinesPassed = 0;
         this.queuedScanLines = 0;
         this.lastUnrenderedLine = 0;
@@ -118,12 +120,12 @@ GameBoyAdvanceGraphicsRendererOffthread.prototype.initializeRenderers = GameBoyA
 }
 GameBoyAdvanceGraphicsRendererOffthread.prototype.initializePaletteStorage = GameBoyAdvanceGraphicsRenderer.prototype.initializePaletteStorage = function () {
     //Both BG and OAM in unified storage:
-    this.palette256 = getInt32Array(0x100);
+    this.palette256 = tsa.getInt32Array(0x100);
     this.palette256[0] = 0x3800000;
-    this.paletteOBJ256 = getInt32Array(0x100);
+    this.paletteOBJ256 = tsa.getInt32Array(0x100);
     this.paletteOBJ256[0] = 0x3800000;
-    this.palette16 = getInt32Array(0x100);
-    this.paletteOBJ16 = getInt32Array(0x100);
+    this.palette16 = tsa.getInt32Array(0x100);
+    this.paletteOBJ16 = tsa.getInt32Array(0x100);
     for (var index = 0; (index | 0) < 0x10; index = ((index | 0) + 1) | 0) {
         this.palette16[index << 4] = 0x3800000;
         this.paletteOBJ16[index << 4] = 0x3800000;

@@ -8,7 +8,9 @@
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-function GameBoyAdvanceBG2FrameBufferRenderer(gfx) {
+import TypedArrayShim from "../../includes/TypedArrayShim";
+const tas = new TypedArrayShim();
+export function GameBoyAdvanceBG2FrameBufferRenderer(gfx) {
     this.gfx = gfx;
 }
 GameBoyAdvanceBG2FrameBufferRenderer.prototype.initialize = function () {
@@ -31,7 +33,7 @@ GameBoyAdvanceBG2FrameBufferRenderer.prototype.selectMode = function (mode) {
             this.fetchPixel = this.fetchMode5Pixel;
     }
 }
-if (__LITTLE_ENDIAN__) {
+if (tas.__LITTLE_ENDIAN__) {
     if (typeof Math.imul == "function") {
         //Math.imul found, insert the optimized path in:
         GameBoyAdvanceBG2FrameBufferRenderer.prototype.fetchMode3Pixel = function (x, y) {
