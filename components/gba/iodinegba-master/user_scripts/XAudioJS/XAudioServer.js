@@ -2,6 +2,7 @@
 //Copyright (C) 2010-2015 Grant Galitz
 //Released to Public Domain
 
+import {Component} from "react"
 //Some Required Globals:
 var XAudioJSWebAudioContextHandle = null;
 var XAudioJSWebAudioAudioNode = null;

@@ -5,46 +5,51 @@ import GBAPanel from "../components/gba/GBAPanel"
 import GBALoadData from "../components/gba/GBALoadData"
 import GBAEmulator from "../components/gba/GBAEmulator";
 import GBAWorker from "../components/gba/iodinegba-master/IodineGBA/core/Worker";
-export default function Home() {
-    new GBAWorker();
-    return (<>
-        {/* <CustomNavbar /> */}
-        <main>
-            <div id="container">
-                <div id="menu" className="paused">
-                    <ul className="menu" id="menu_top">
-                        <GBALoadData />
-                        <GBAPanel>
-                            
-                        </GBAPanel>
-                        <GBAEmulator />
-                     
-                    </ul>
-                </div>
-                <div id="main">
-                    <canvas className="canvas" id="emulator_target" width="240" height="160"></canvas>
-                </div>
-                <div className="touch-controls">
-                    <div className="touch-dpad">
-                        <button id="touch-up">↑</button><br />
-                        <button id="touch-left">←</button>
-                        <button id="touch-right">→</button><br />
-                        <button id="touch-down">↓</button>
-                    </div>
-                    <div className="touch-buttons">
-                        <button id="touch-select">SELECT</button>
-                        <button id="touch-start">START</button>
-                    </div>
-                    <div className="touch-buttons">
-                        <button id="touch-a">A</button>
-                        <button id="touch-b">B</button><br />
-                        <button id="touch-l">L</button>
-                        <button id="touch-r">R</button>
-                    </div>
-                </div>
-                <span className="message" id="tempMessage"></span>
-            </div>
-        </main>
-        <Footer />
-    </>)
+import GBAMain from "../components/gba/GBAMain";
+import RouterFactory from "../components/core/RouterFactory";
+import {Route, Routes} from "react-router-dom";
+import Contact from "./contact";
+import NoPage from "./NoPage";
+import {PureComponent, useEffect, useState} from "react";
+import Home from "./home/Home";
+import About from "./about";
+
+function Layout() {
+    return <CustomNavbar/>;
+}
+
+export default class Index extends PureComponent {
+
+    constructor({children, props}) {
+        super(props);
+        this.children = children;
+        this.routerFactory = undefined;
+    }
+
+
+    // Similar to componentDidMount and componentDidUpdate:
+    componentDidMount() {
+        this.routerFactory =
+        <RouterFactory>
+            <Route path="" element={<Layout/>}>
+                <Route index element={<Home/>}/>
+                <Route path="about" element={<About/>}/>
+                <Route path="contact" element={<Contact/>}/>
+                <Route path="*" element={<NoPage/>}/>
+            </Route>
+        </RouterFactory>;
+    }
+
+    // new GBAWorker();
+    render(props) {
+        return <>
+            <main>
+
+                {this.children}
+                {this.routerFactory}
+
+            </main>
+            <Footer/>
+        </>
+    }
 }

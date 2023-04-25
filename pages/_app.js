@@ -22,11 +22,11 @@ function MyApp({Component, pageProps}) {
     return (<>
         <I18nextProvider i18n={i18next}>
             <CustomHead name={data.name} description={data.description}/>
-
             <Component {...pageProps} />
         </I18nextProvider>
     </>);
 
 }
 
-export default MyApp
+export default MyApp;
+
