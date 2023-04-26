@@ -48,7 +48,7 @@
 ---------------------------------------------------------------- */
 /* ====================== [ Start Typography  ] ====================== */
 
-@import "/styles/bootstrap.min.css";
+@import "/styles/bootstrap-4/css/bootstrap.css";
 @import "/styles/animate.css";
 @import "/styles/font-awesome.min.css";
 @import "/styles/ionicons.min.css";

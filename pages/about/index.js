@@ -4,8 +4,8 @@ import Footer from "../../components/footer/Footer";
 export default function About(props) {
     return (
         <>
+            <CustomNavbar />
             <main>
-                <CustomNavbar/>
                 <header className="pages-header circle-bg valign">
                     <div className="container">
                         <div className="row justify-content-center">
