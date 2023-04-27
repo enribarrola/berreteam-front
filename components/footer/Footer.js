@@ -1,10 +1,12 @@
 import data from "../../pages/data.json"
 import Link from "next/link";
 import {useTranslation} from "react-i18next";
+import {useEffect} from "react";
 
 export default function Footer(props) {
+
     const [t, i18n] = useTranslation('common');
-    var contactAddress = data.contact.addr + " - " + data.contact.cp + " " + data.contact.city
+    let contactAddress = data.contact.addr + " - " + data.contact.cp + " " + data.contact.city;
 
     return (
         <>

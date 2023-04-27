@@ -2,10 +2,12 @@ import {useTranslation} from "react-i18next";
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import Image from "next/image";
 import {Link} from "react-router-dom";
-
+import {useContext} from "react";
+import NavbarContext from "../../pages/_app";
 
 export default function CustomNavbar(props) {
     const [t, i18n] = useTranslation('common');
+    const navContextValue = useContext(NavbarContext);
     return (<>
         <Navbar bg="dark" expand="lg">
             <Container>
@@ -68,6 +70,7 @@ export default function CustomNavbar(props) {
         {/*        </div>*/}
         {/*    </div>*/}
         {/*</nav>*/}
+
     </>)
 }
 

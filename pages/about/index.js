@@ -1,10 +1,10 @@
-import CustomNavbar from "../../components/nav/CustomNavbar";
 import Footer from "../../components/footer/Footer";
+import CustomNavbar from "../../components/nav/CustomNavbar";
 
 export default function About(props) {
     return (
         <>
-            <CustomNavbar />
+            {/*<CustomNavbar />*/}
             <main>
                 <header className="pages-header circle-bg valign">
                     <div className="container">
@@ -102,7 +102,7 @@ export default function About(props) {
                     </div>
                 </section>
             </main>
-            <Footer/>
+            {/*<Footer/>*/}
         </>
     )
 }

@@ -13,43 +13,29 @@ import NoPage from "./NoPage";
 import {PureComponent, useEffect, useState} from "react";
 import Home from "./home/Home";
 import About from "./about";
+import XmlHttpRequestCore from "../components/core/httpresourcefactory/XmlHttpRequestCore";
 
 function Layout() {
     return <CustomNavbar/>;
 }
 
-export default class Index extends PureComponent {
+export default function Index(children = {}, props = {}) {
 
-    constructor({children, props}) {
-        super(props);
-        this.children = children;
-        this.routerFactory = undefined;
-    }
+    const xhr = new XmlHttpRequestCore();
+    let routerFactory = null;
 
 
     // Similar to componentDidMount and componentDidUpdate:
-    componentDidMount() {
-        this.routerFactory =
-        <RouterFactory>
-            <Route path="" element={<Layout/>}>
-                <Route index element={<Home/>}/>
-                <Route path="about" element={<About/>}/>
-                <Route path="contact" element={<Contact/>}/>
-                <Route path="*" element={<NoPage/>}/>
-            </Route>
-        </RouterFactory>;
-    }
+    useEffect(() => {
+        // xhr.get("/user/roles");
+    })
+
 
     // new GBAWorker();
-    render(props) {
-        return <>
-            <main>
 
-                {this.children}
-                {this.routerFactory}
+    return <>
+        <main>
+        </main>
 
-            </main>
-            <Footer/>
-        </>
-    }
+    </>
 }

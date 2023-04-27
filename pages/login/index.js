@@ -9,7 +9,7 @@ export default function Index(data, ...pageProps) {
 
     return (<>
             <CustomHead/>
-            <CustomNavbar data={data}/>
+            {/*<CustomNavbar data={data}/>*/}
             <div className="non-navbar-content">
                 <div className="container">
                     <div className="card">
