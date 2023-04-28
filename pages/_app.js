@@ -1,13 +1,14 @@
 /**
  * Style
  */
-import "../public/styles/bootstrap-4/css/bootstrap.css";
+// import "../public/styles/bootstrap-4/css/bootstrap.css";
 import "../public/styles/animate.css";
 //https://fontawesome.com/download
 import "../libs/fontawesome-free-6.4.0-web/css/all.css";
 import "../libs/fontawesome-free-6.4.0-web/js/all.min";
 //https://ionic.io/ionicons/usage
 import '../public/styles/dark.css'
+
 /**
  * App
  */
@@ -24,7 +25,7 @@ import CustomNavbar from "../components/nav/CustomNavbar";
 import Footer from "../components/footer/Footer";
 import CustomHead from "../components/head/CustomHead";
 import I18Config from "../components/core/I18nConfig";
-import Login from "./login/Login";
+import Login from "./login";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 function MyApp({Component, pageProps}) {
@@ -56,17 +57,13 @@ function MyApp({Component, pageProps}) {
             </RouterContext.Provider>
         </InitDataContext.Provider>
     </>);
-
 }
 
 export default MyApp;
 export const getStaticProps = async ({locale}) => {
     return {
         props: {
-            ...(await serverSideTranslations(locale ?? "es", [
-                "index",
-            ])),
-        },
-        // revalidate: 60 * 60 * 24 // Try to remove revalidate
+            ...(await serverSideTranslations(locale ?? "es", ["index",])),
+        }, // revalidate: 60 * 60 * 24 // Try to remove revalidate
     };
 };

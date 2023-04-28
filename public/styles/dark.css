@@ -1754,6 +1754,10 @@ span:hover {
 }
 
 /* ====================== [ End Button Style ] ====================== */
+.non-navbar-content {
+    padding: 15% 15%;
+
+}
 /* ====================== [ Start navbar ] ====================== */
 .navbar {
     position: absolute;

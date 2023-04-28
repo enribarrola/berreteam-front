@@ -1,9 +1,9 @@
 import Link from "next/link";
 import {useContext, useEffect} from "react";
 import Image from "next/image";
-import {Container} from "../../libs/react-bootstrap";
-import {InitDataContext, TranslatorContext} from "../core/CusContext";
+import {InitDataContext} from "../core/CusContext";
 import {useTranslation} from "react-i18next";
+import Script from "next/script";
 
 export default function Footer(props) {
     const crops = props;
@@ -28,7 +28,7 @@ export default function Footer(props) {
 
     return (<>
         <footer className="sub-bg">
-            <Container>
+            <div className={"container"}>
                 <div className="row">
                     <div className="col-lg-4">
                         <div className="item md-mb50">
@@ -64,7 +64,13 @@ export default function Footer(props) {
                         </div>
                     </div>
                 </div>
-            </Container>
+            </div>
         </footer>
+        <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+                crossOrigin="anonymous"></Script>
+        <Script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+                integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
+                crossOrigin="anonymous"></Script>
     </>)
 }

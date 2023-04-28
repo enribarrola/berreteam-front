@@ -1,0 +1,25 @@
+{
+  "welcome": {
+    "title": {
+      "company": "Bienvenido a {{company}}",
+      "user": "Bienvenido {{user}}"
+    }
+  },
+  "about": "Sobre Nosotros",
+  "contact": {
+    "us": "Contacto",
+    "address": "Dirección",
+    "email": "Email",
+    "tel": "Teléfono"
+  },
+  "change": {
+    "language": "Cambiar Lenguaje"
+  },
+  "login": {
+    "tag": "Ingresar",
+    "username": "Usuario",
+    "password": "Contraseña"
+  },
+  "signin": "Registrar",
+  "logout": "Cerrar sesion"
+}
