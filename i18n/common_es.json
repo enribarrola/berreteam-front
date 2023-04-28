@@ -14,5 +14,8 @@
   },
   "change": {
     "language": "Cambiar Lenguaje"
-  }
+  },
+  "login": "Ingresar",
+  "signin": "Registrar",
+  "logout": "Cerrar sesion"
 }
