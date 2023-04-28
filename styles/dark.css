@@ -48,12 +48,11 @@
 ---------------------------------------------------------------- */
 /* ====================== [ Start Typography  ] ====================== */
 
-@import "/styles/bootstrap.min.css";
+@import "/styles/bootstrap-4/css/bootstrap.css";
 @import "/styles/animate.css";
 @import "/styles/font-awesome.min.css";
 @import "/styles/ionicons.min.css";
 @import "/styles/pe-icon.min.css";
-@import "/styles/font-awesome.min.css";
 
 * {
     margin: 0;
@@ -291,7 +290,8 @@ span:hover {
 }
 
 .sub-bg {
-    background: #18191d;
+    /*background: #18191d;*/
+    background: rgba(0, 0, 0, 0);
 }
 
 .bg-img {

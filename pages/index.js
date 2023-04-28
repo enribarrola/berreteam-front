@@ -1,15 +1,8 @@
-// import styles from '../styles/Home.module.css'
-import data from './data.json'
-import CustomNavbar from "../components/nav/CustomNavbar";
-import Footer from "../components/footer/Footer";
 
 
-export default function Home() {
+export default function Index(props) {
+    const crops = props;
     return (<>
-        <CustomNavbar/>
-        <main>
-
-        </main>
-        <Footer/>
-    </>)
+        <h1>HOLA</h1>
+    </>);
 }

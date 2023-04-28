@@ -10,10 +10,12 @@
     "city": "city",
     "country": "country",
     "email": "email@berreteam.com",
-    "facebook": "https://www.facebook.com/",
-    "instagram": "https://www.instagram.com/",
-    "twitter": "https://www.twitter.com/",
-    "discord": "https://www.discord.gg/",
-    "youtube": "https://www.youtube.com/"
+    "social": {
+      "facebook": "https://www.facebook.com/",
+      "instagram": "https://www.instagram.com/",
+      "twitter": "https://www.twitter.com/",
+      "discord": "https://www.discord.gg/",
+      "youtube": "https://www.youtube.com/"
+    }
   }
 }
