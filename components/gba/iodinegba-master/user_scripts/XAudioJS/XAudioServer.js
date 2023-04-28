@@ -238,9 +238,9 @@ XAudioServer.prototype.setupWebAudio = function () {
         XAudioJSWebAudioContextHandle.close();
     }
     try {
-        XAudioJSWebAudioContextHandle = new AudioContext();								//Create a system audio context.
+        XAudioJSWebAudioContextHandle = new AudioContext();								//Create a system audio CusContext.
     } catch (error) {
-        XAudioJSWebAudioContextHandle = new webkitAudioContext();							//Create a system audio context.
+        XAudioJSWebAudioContextHandle = new webkitAudioContext();							//Create a system audio CusContext.
     }
     XAudioJSWebAudioLaunchedContext = true;
     if (XAudioJSWebAudioAudioNode) {

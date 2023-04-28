@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Container, Nav, Navbar, NavDropdown} from "../../libs/react-bootstrap";
 import Image from "next/image";
 import About from "../../pages/about";
 import {Link} from "react-router-dom";

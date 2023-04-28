@@ -1,6 +1,5 @@
 import {BrowserRouter, Routes} from "react-router-dom";
-
-export default function RouterFactory({children}, params) {
+export default function RouterFactory({children}) {
 
     return (<>
         <BrowserRouter>
