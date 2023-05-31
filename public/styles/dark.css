@@ -229,6 +229,63 @@ span:hover {
 }
 
 /* ====================== [ End Typography  ] ====================== */
+/* ====================== [ Start Hero  ] ====================== */
+
+.hero-bg {
+
+    /*background-image: url("/img/test1920x1050.jpg");*/
+    background: rgb(1,240,87);
+    background: -moz-linear-gradient(202deg, rgba(1,240,87,1) 0%, rgba(9,121,66,0.22591043253238796) 29%, rgba(8,123,93,0.015826398918942552) 49%, rgba(8,125,131,0.5368348022802871) 64%, rgba(0,212,255,1) 100%);
+    background: -webkit-linear-gradient(202deg, rgba(1,240,87,1) 0%, rgba(9,121,66,0.22591043253238796) 29%, rgba(8,123,93,0.015826398918942552) 49%, rgba(8,125,131,0.5368348022802871) 64%, rgba(0,212,255,1) 100%);
+    background: linear-gradient(202deg, rgba(1,240,87,1) 0%, rgba(9,121,66,0.22591043253238796) 29%, rgba(8,123,93,0.015826398918942552) 49%, rgba(8,125,131,0.5368348022802871) 64%, rgba(0,212,255,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#01f057",endColorstr="#00d4ff",GradientType=1);
+}
+.hero-inner-img {
+    margin-top: 10%;
+    margin-bottom: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 100%;
+    height: 100%;
+}
+.hero-text {
+    margin-top: 10%;
+    margin-bottom: 10%;
+    margin-left: 0%;
+    margin-right: 0%;
+    color: red;
+}
+
+.hero-title{
+    color: green;
+    margin-top: 3.33%;
+    margin-bottom: 3.33%;
+    margin-left: 0%;
+    margin-right: 0%;
+}
+.hero-subtitle{
+    color: yellow;
+    margin-top: 3.33%;
+    margin-bottom: 3.33%;
+    margin-left: 0%;
+    margin-right: 0%;
+}
+.hero-description{
+    color:red;
+    margin-top: 3.33%;
+    margin-bottom: 3.33%;
+    margin-left: 0%;
+    margin-right: 0%;
+}
+h1.hero-text, h2.hero-text,h3.hero-text,h4.hero-text {
+    text-align: justify;
+}
+p.hero-text {
+    text-align: center;
+}
+
+/* ====================== [ End Hero  ] ====================== */
+
 /* ====================== [ Start Helper Classes  ] ====================== */
 .o-hidden {
     overflow: hidden;
@@ -1755,9 +1812,10 @@ span:hover {
 
 /* ====================== [ End Button Style ] ====================== */
 .non-navbar-content {
-    padding: 15% 15%;
-
+    padding-top: 8%;
+    position: initial;
 }
+
 /* ====================== [ Start navbar ] ====================== */
 .navbar {
     position: absolute;
@@ -9207,6 +9265,7 @@ section.testimonials.section-padding {
     display: none !important;
 }
 
+/* Particles */
 header.particles.circle-bg.valign {
     overflow: hidden;
 }
@@ -9218,6 +9277,7 @@ div#particles-js {
     width: 100%;
     height: 100%;
 }
+
 
 section.next-prog.section-padding {
     overflow: hidden;
@@ -9237,3 +9297,5 @@ section.next-prog.section-padding {
         padding: 0;
     }
 }
+
+

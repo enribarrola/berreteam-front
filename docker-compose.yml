@@ -4,7 +4,7 @@ services:
   mysql_5.7:
     image: mysql:5.7
     volumes:
-      - ./database/fineract-db/docker:/docker-entrypoint-initdb.d:Z,ro
+      - ./database/init:/docker-entrypoint-initdb.d:Z,ro
       - ./database/db:/var/lib/mysql
     restart: always
     environment:
