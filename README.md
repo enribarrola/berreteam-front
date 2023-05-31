@@ -39,3 +39,20 @@ the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=
 from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+
+
+
+## MITERIO
+- [DesarrolloSostenible] (https://www.un.org/sustainabledevelopment/es/objetivos-de-desarrollo-sostenible/) TODO
+- [CambioClimatico] (https://www.un.org/sustainabledevelopment/es/climate-change-2/) TODO
+- [Océanos](https://www.un.org/sustainabledevelopment/es/oceans/)TODO
+- [BioDiversidad] (https://www.un.org/sustainabledevelopment/es/biodiversity/) TODO
+
+
+## Electronica
+- [Mixer]
+- [VCO] (https://chrislowis.co.uk/notes/shapes-vco)
+- [DAC](http://hyperphysics.phy-astr.gsu.edu/hbase/Electronic/dac.html)
+

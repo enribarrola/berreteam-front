@@ -4,6 +4,15 @@ import {Component, useEffect} from "react";
 let scene, camera, renderer, cube, cube2, geometry, material, material2, geometry2;
 let rotateBounceFlag = true;
 
+let initialData = {
+    width: 1,
+    height: 1,
+    depth: 1,
+    widthSegments: 10,
+    heightSegments: 10,
+    depthSegments: 10
+}
+
 let rotateBounceX = (geo, limA, step, limB) => {
     if (limB === undefined || limB == null) {
         limB = 0.2;
@@ -26,14 +35,6 @@ let rotateBounceX = (geo, limA, step, limB) => {
     }
 }
 
-let initialData = {
-    width: 1,
-    height: 1,
-    depth: 1,
-    widthSegments: 10,
-    heightSegments: 10,
-    depthSegments: 10
-}
 
 let baf_flag = true;
 const backwardsAndFordwardOnce = (cube2, axis, step_b, step_f, limit) => {

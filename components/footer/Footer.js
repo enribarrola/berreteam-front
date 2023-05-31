@@ -58,7 +58,7 @@ export default function Footer(props) {
                             <div className="social">
                                 {contactList}
                             </div>
-                            <div className="copy-right"><p>© 2023 - Made with passion by <Link
+                            <div className="copy-right"><p>© 2023 - <Link
                                 href="/">Berreteam</Link>.
                             </p></div>
                         </div>

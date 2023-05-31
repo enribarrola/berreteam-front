@@ -50,9 +50,9 @@ function MyApp({Component, pageProps}) {
             <RouterContext.Provider value={router}>
                 <I18Config>
                     <CustomHead/>
-                    <CustomNavbar props={mData}/>
+                    <CustomNavbar props={mData} {...pageProps}/>
                     <Component {...pageProps} />
-                    <Footer props={mData}/>
+                    <Footer props={mData} {...pageProps}/>
                 </I18Config>
             </RouterContext.Provider>
         </InitDataContext.Provider>
