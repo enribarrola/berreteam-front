@@ -2,9 +2,7 @@ import i18next from "i18next";
 import common_en from "../../i18lang/common_en.json";
 import common_es from "../../i18lang/common_es.json";
 import {I18nextProvider, initReactI18next, useTranslation} from "react-i18next";
-import {TranslatorContext} from "./CusContext";
 import {useEffect} from "react";
-import LanguageDetector from 'i18next-browser-languagedetector';
 
 export default function I18nConfig({children}) {
 

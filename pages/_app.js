@@ -7,8 +7,8 @@ import "../public/styles/animate.css";
 import "../libs/fontawesome-free-6.4.0-web/css/all.css";
 import "../libs/fontawesome-free-6.4.0-web/js/all.min";
 //https://ionic.io/ionicons/usage
-import '../public/styles/dark.css'
-
+import '../public/styles/dark.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 /**
  * App
  */
@@ -22,11 +22,13 @@ import Contact from "./contact";
 import {InitDataContext, RouterContext} from "../components/core/CusContext";
 import Error from "next/error";
 import CustomNavbar from "../components/nav/CustomNavbar";
-import Footer from "../components/footer/Footer";
+import Footer from "../components/core/footer/Footer";
 import CustomHead from "../components/head/CustomHead";
 import I18Config from "../components/core/I18nConfig";
 import Login from "./login";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import HttpRequestsTestClass from "../components/core/HttpResourceFactory/HttpRequestsTestClass";
+import ThreeHandler from "../components/core/CusThreeHandler/ThreeHandler";
 
 function MyApp({Component, pageProps}) {
     const [mData, setData] = useState(null)
@@ -36,13 +38,15 @@ function MyApp({Component, pageProps}) {
             <Route path="/about" element={<About props={mData}/>}/>
             <Route path="/contact" element={<Contact props={mData}/>}/>
             <Route path="/login" element={<Login props={mData}/>}/>
-            <Route path="/*" element={<Error statusCode={"404"}/>}/>
-            <Route path="/404" element={<Error statusCode={"404"}/>}/>
-            <Route path="/500" element={<Error statusCode={"500"}/>}/>
+            <Route path="/*" element={<Error statusCode={404}/>}/>
+            <Route path="/404" element={<Error statusCode={404}/>}/>
+            <Route path="/500" element={<Error statusCode={500}/>}/>
         </Route>
     </RouterFactory>).current;
 
     useEffect(() => {
+
+
     })
 
     return (<>
@@ -50,8 +54,15 @@ function MyApp({Component, pageProps}) {
             <RouterContext.Provider value={router}>
                 <I18Config>
                     <CustomHead/>
+                    {/*<SSRProvider>*/}
+                    <HttpRequestsTestClass/>
                     <CustomNavbar props={mData} {...pageProps}/>
+                    <ThreeHandler >
+                    </ThreeHandler>
+                    <div className="renderer"></div>
+
                     <Component {...pageProps} />
+                    {/*</SSRProvider>*/}
                     <Footer props={mData} {...pageProps}/>
                 </I18Config>
             </RouterContext.Provider>

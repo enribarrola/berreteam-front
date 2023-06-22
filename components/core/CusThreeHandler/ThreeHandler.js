@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import {Component, useEffect} from "react";
-
+import {backwardsAndForwardOnce, rotateBounceX} from "./ThreeAnimationDefault";
 let scene, camera, renderer, cube, cube2, geometry, material, material2, geometry2;
 let rotateBounceFlag = true;
+
 
 let initialData = {
     width: 1,
@@ -13,57 +14,11 @@ let initialData = {
     depthSegments: 10
 }
 
-let rotateBounceX = (geo, limA, step, limB) => {
-    if (limB === undefined || limB == null) {
-        limB = 0.2;
-    }
-    if (step === undefined || step == null) {
-        step = 0.001;
-    }
-    if (rotateBounceFlag) {
-        if (geo.rotation.x < limA && geo.rotation.x > (limA - 0.01)) {
-            rotateBounceFlag = false
-        } else {
-            geo.rotation.x += step;
-        }
-    } else {
-        if (geo.rotation.x < limB && geo.rotation.x > (0)) {
-            rotateBounceFlag = true
-        } else {
-            geo.rotation.x -= step;
-        }
-    }
-}
-
-
-let baf_flag = true;
-const backwardsAndFordwardOnce = (cube2, axis, step_b, step_f, limit) => {
-
-    if (step_b === undefined || step_b == null) {
-        step_b = 0.2;
-    }
-    if (step_f === undefined || step_f == null) {
-        step_f = 0.001;
-    }
-    if (limit === undefined || limit == null) {
-        limit = 0.001;
-    }
-
-
-    if (baf_flag) {
-        if (cube2.position.z <= limit)
-            baf_flag = false
-        if (cube2.position.z > limit)
-            cube2.translateZ(step_b)
-    } else {
-        cube2.translateZ(step_f)
-    }
-};
-
 class ThreeHandler extends Component {
     constructor(props, context) {
         super(props, context);
     }
+
 
     init() {
         //creating scene
@@ -106,12 +61,14 @@ class ThreeHandler extends Component {
         cube.rotateY(0.002)
         cube2.rotateZ(0.001)
         rotateBounceX(cube, 10, 0.005)
+
         if (camera.position.z < 2) {
             camera.position.z += 0.01
         }
         if (camera.position.z >= 2) {
-            backwardsAndFordwardOnce(cube2, "z", -0.1, 0.1, -10)
-            if (cube2.position.z >= 4) {
+            if(camera.position.z > 2 && camera.position.z < 4){
+                backwardsAndForwardOnce(cube2, "z", -0.1, 0.1, -10)
+            }else if (cube2.position.z >= 4) {
                 scene.remove(cube2)
             }
         }

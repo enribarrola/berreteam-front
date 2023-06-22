@@ -1811,12 +1811,13 @@ p.hero-text {
 }
 
 /* ====================== [ End Button Style ] ====================== */
+
+
+/* ====================== [ Start navbar ] ====================== */
 .non-navbar-content {
     padding-top: 8%;
     position: initial;
 }
-
-/* ====================== [ Start navbar ] ====================== */
 .navbar {
     position: absolute;
     left: 0;

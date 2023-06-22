@@ -21,5 +21,10 @@
     "password": "Contraseña"
   },
   "signin": "Registrar",
-  "logout": "Cerrar sesion"
+  "logout": "Cerrar sesion",
+  "base": {
+    "settings": "Preferencias",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode"
+  }
 }

@@ -7,6 +7,7 @@ import {PureComponent} from "react";
 export default class XmlHttpRequestCore extends PureComponent {
     /**
      *
+     *
      * @param props
      */
     constructor(props) {
@@ -40,8 +41,8 @@ XmlHttpRequestCore.prototype.post = function (body = "") {
  * @param callback
  */
 XmlHttpRequestCore.prototype.get = function (endpoint, body, callback = undefined) {
-    if (callback == undefined) {
-        callback = this.defaultCallback;
+    if (callback != undefined) {
+        this.defaultCallback = callback;
     }
     this.resourceRequest(callback);
     this.sendToEnd(endpoint, body);
@@ -85,28 +86,25 @@ XmlHttpRequestCore.prototype.resourceRequest = function (callback) {
         this.defaultCallback("xhr.readystate:" + this.xhr.readyState);
         switch (this.xhr.readyState) {
             case 0:
-                this.defaultCallback("readyState: {\"code\": 0, \"unsent\"}" + this.xhr.response)
+                this.defaultCallback("stage_0");
                 this.defaultCallback(this.xhr.getAllResponseHeaders())
                 break;
             case 1:
-                this.defaultCallback("readyState: {\"code\": 1, \"opened\"}" + this.xhr.response)
-                // this.xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-                // this.xhr.setRequestHeader("Content-Type", "application/json");
+                this.defaultCallback("stage_1");
                 this.defaultCallback(this.xhr.getAllResponseHeaders())
                 break;
             case 2:
-                this.defaultCallback("readyState: {\"code\": 2, \"headers\"}" + this.xhr.response)
+                this.defaultCallback("stage_2");
                 this.defaultCallback(this.xhr.getAllResponseHeaders())
                 break;
             case 3:
-                this.defaultCallback("readyState: {\"code\": 3, \"loading\"}" + this.xhr.response)
+                this.defaultCallback("stage_3");
                 this.defaultCallback(this.xhr.getAllResponseHeaders())
                 break;
             case 4:
-                this.defaultCallback("readyState: {\"code\": 4, \"done\"}" + this.xhr.response)
-                this.defaultCallback(this.xhr.getAllResponseHeaders())
-                // callback(xhr.response);
-                this.defaultCallback(this.RESPONSE_DATA)
+                this.defaultCallback("stage_4");
+                this.RESPONSE_DATA = this.xhr.response;
+                this.defaultCallback("response: "+this.RESPONSE_DATA)
                 break;
         }
     }
@@ -116,6 +114,6 @@ XmlHttpRequestCore.prototype.resourceRequest = function (callback) {
  * @param data
  */
 XmlHttpRequestCore.prototype.defaultCallback = function (data) {
-    // console.log(data)
+    console.log(data)
 }
 

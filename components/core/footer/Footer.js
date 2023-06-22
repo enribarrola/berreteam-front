@@ -1,9 +1,7 @@
-import Link from "next/link";
 import {useContext, useEffect} from "react";
-import Image from "next/image";
-import {InitDataContext} from "../core/CusContext";
+// import {InitDataContext} from "../core/CusContext"; //TODO
 import {useTranslation} from "react-i18next";
-import Script from "next/script";
+import {InitDataContext} from "../CusContext";
 
 export default function Footer(props) {
     const crops = props;
@@ -13,14 +11,14 @@ export default function Footer(props) {
     let contactList = [];
     useEffect(() => {
         Object.keys(initDataContext.contact.social).forEach(key => {
-            if (key == "facebook") {
-                contactList.push(<Link href={key}>
+            if (key === "facebook") {
+                contactList.push(<a href={key}>
                     <a><i className={"fab fa-" + key + "-f"}></i></a>
-                </Link>);
+                </a>);
             } else {
-                contactList.push(<Link href={key}>
+                contactList.push(<a href={key}>
                     <a><i className={"fab fa-" + key}></i></a>
-                </Link>);
+                </a>);
             }
         });
     })
@@ -53,24 +51,25 @@ export default function Footer(props) {
                     </div>
                     <div className="col-lg-4">
                         <div className="item">
-                            <div className="logo"><Image src="/img/logo-light.png" width={"60"} height={"60"} alt=""/>
+                            <div className="logo"><img src="/img/logo-light.png" width={"60"} height={"60"} alt=""/>
                             </div>
                             <div className="social">
                                 {contactList}
                             </div>
-                            <div className="copy-right"><p>© 2023 - <Link
-                                href="/">Berreteam</Link>.
+                            <div className="copy-right"><p>© 2023 - <a
+                                href="/">Berreteam</a>.
                             </p></div>
                         </div>
                     </div>
                 </div>
             </div>
         </footer>
-        <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-                crossOrigin="anonymous"></Script>
-        <Script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
-                integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
-                crossOrigin="anonymous"></Script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"
+            crossOrigin></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/react-bootstrap@next/dist/react-bootstrap.min.js"
+            crossOrigin></script>
     </>)
 }
