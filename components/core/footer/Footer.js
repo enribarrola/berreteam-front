@@ -2,9 +2,10 @@ import {useContext, useEffect} from "react";
 // import {InitDataContext} from "../core/CusContext"; //TODO
 import {useTranslation} from "react-i18next";
 import {InitDataContext} from "../CusContext";
+import Script from "next/script";
 
-export default function Footer(props) {
-    const crops = props;
+export default function Footer({...pageProps}) {
+    const crops = pageProps;
     const initDataContext = useContext(InitDataContext)
     const [t, i18n] = useTranslation("common");
     let contactAddress = initDataContext.contact.addr + " - " + initDataContext.contact.cp + " " + initDataContext.contact.city;
@@ -64,12 +65,5 @@ export default function Footer(props) {
                 </div>
             </div>
         </footer>
-        <script
-            src="https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"
-            crossOrigin></script>
-
-        <script
-            src="https://cdn.jsdelivr.net/npm/react-bootstrap@next/dist/react-bootstrap.min.js"
-            crossOrigin></script>
     </>)
 }

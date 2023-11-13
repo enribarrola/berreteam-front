@@ -1,9 +1,10 @@
 import {HeroView} from "../components/hero-view/HeroView";
 import {Carousel, CarouselItem} from "react-bootstrap";
-import XmlHttpRequestCore from "../components/core/HttpResourceFactory/XmlHttpRequestCore";
+import CustomNavbar from "../components/nav/CustomNavbar";
+import Footer from "../components/core/footer/Footer";
 
 
-export default function Index(props) {
+export default function Index({...pageProps}) {
 
     // TODO fetch from db info
     const mdata = {
@@ -19,12 +20,9 @@ export default function Index(props) {
         smallImage: "https://dummyimage.com/1350x760/fafafa/0d1bde.jpg"
     };
 
-    let xml = new XmlHttpRequestCore(props)
-    xml.get("http://localhost:8080/api/v1/rest/msgservice",null,null);
-
-
 
     return (<>
+        <CustomNavbar {...pageProps}/>
         <div className="hero-bg non-navbar-content container-fluid">
             <div className="container">
                 <Carousel slide={true} controls={true} touch={true} >
@@ -37,5 +35,7 @@ export default function Index(props) {
                 </Carousel>
             </div>
         </div>
+        <Footer  {...pageProps}/>
+
     </>);
 }
