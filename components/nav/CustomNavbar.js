@@ -27,7 +27,6 @@ export default function CustomNavbar() {
                                 <li className="nav-item">
                                     <a className="nav-link " aria-current="page" href="/settings">Settings</a>
                                 </li>
-
                                     <NavDropdown.Item href="/logout">{t("logout")}</NavDropdown.Item></>) :
                                 (<>
                                     <NavDropdown.Item href="/login">{t("login.tag")}</NavDropdown.Item>
