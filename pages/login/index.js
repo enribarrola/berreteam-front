@@ -1,54 +1,58 @@
-import {useContext} from "react";
-import {InitDataContext, TranslatorContext} from "../../components/core/CusContext";
-import {useTranslation} from "react-i18next";
+import {Form} from 'react-bootstrap';
+import {useEffect, useState} from 'react';
 
+export default function AppUserLogin() {
 
-export default function Login(props) {
-    const crops = props;
-    const initDataContext = useContext(InitDataContext);
-    const [t, i18n] = useTranslation("common");
+    const [isLogged, setLogged] = useStore()
+
+    useEffect(() => {
+        const form = document.getElementById('loginform')
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault()
+
+            const username = document.getElementById('username').value
+            const password = document.getElementById('password').value
+            console.log(username, password)
+            try {
+                const res = await fetch(`http://localhost:8080/login?username=${username}&password=${password}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'no-cors'
+                })
+                document.getElementById('username').value = "";
+                document.getElementById('password').value = "";
+                setLogged(true)
+            } catch (err) {
+                console.error(err.message);
+                setLogged(false)
+            }
+        });
+    }, []);
 
     return (<>
-        <div className="non-navbar-content">
-            <div className="container">
-                <div className="card">
-                    <div className="card-body">
-                        <div className="center-margins ">
-                            {/*username*/}
-                            <div id="usernameField" className="input-group mb-2 ">
-                                <div className="col-sm-4 ">
-                                    <span className="input-group-text" id="username">{t("login.username")}</span>
-                                </div>
-                                <div className="col">
-                                    <input type="text" className="form-control" aria-label="username"
-                                           aria-describedby="username"/>
-                                </div>
-                            </div>
-
-                            {/*password*/}
-                            <div id="passwordField" className="input-group mb-2 ">
-                                <div className="col-sm-4 ">
-                                    <span className="input-group-text" id="password">{t("login.password")}</span>
-                                </div>
-                                <div className="col">
-                                    <input type="password" className="form-control" aria-label="password"
-                                           aria-describedby="password"/>
-                                </div>
-                            </div>
-                        </div>
-                        {/*<p className="card-text">Some quick example text</p>*/}
-                        <div className="center-margins ">
-                            <div className="input-group mb-2">
-                                <div className="col-sm-4 "></div>
-                                <div className="col">
-                                    <a href="#" className="btn btn-primary">{t("login.tag")}</a>
-                                </div>
-                            </div>
-                        </div>
-
+        <form id='loginform'>
+            <div className='col'>
+                <div className='row'>
+                    <div className='row'>
+                        <label htmlFor='username'>Email:</label>
+                    </div>
+                    <div className='row'>
+                        <input id='username' type='text' htmlFor='username'/>
                     </div>
                 </div>
+                <div className='row'>
+                    <div className='row'>
+                        <label htmlFor='password'>Password:</label>
+                    </div>
+                    <div className='row'>
+                        <input id='password' type='password' htmlFor='password'/>
+                    </div>
+                </div>
+                <input type='submit' value='Submit'/>
             </div>
-        </div>
+        </form>
     </>)
 }

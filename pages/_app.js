@@ -2,13 +2,10 @@
  * Style
  */
 // import "../public/styles/bootstrap-4/css/bootstrap.css";
-import "../public/styles/animate.css";
 //https://fontawesome.com/download
 import "../libs/fontawesome-free-6.4.0-web/css/all.css";
 import "../libs/fontawesome-free-6.4.0-web/js/all.min";
 //https://ionic.io/ionicons/usage
-import '../public/styles/dark.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 /**
  * App
  */
@@ -16,57 +13,72 @@ import data from "./data.json";
 import {useEffect, useRef, useState} from "react";
 import RouterFactory from "../components/core/RouterFactory";
 import {Route} from "react-router-dom";
-import Index from "./index";
-import About from "./about";
-import Contact from "./contact";
 import {InitDataContext, RouterContext} from "../components/core/CusContext";
 import Error from "next/error";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {SSRProvider} from "react-bootstrap";
+import i18next from "i18next";
+import {I18nextProvider} from "react-i18next";
+import common_en from "../i18lang/common_en.json";
+import common_es from "../i18lang/common_es.json";
+import AppUserLogin from "./login";
 import CustomNavbar from "../components/nav/CustomNavbar";
 import Footer from "../components/core/footer/Footer";
 import CustomHead from "../components/head/CustomHead";
-import I18Config from "../components/core/I18nConfig";
-import Login from "./login";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import HttpRequestsTestClass from "../components/core/HttpResourceFactory/HttpRequestsTestClass";
-import ThreeHandler from "../components/core/CusThreeHandler/ThreeHandler";
+import Index from "./index";
+import About from "./about";
+import AppSettings from "./settings";
+import {create} from "zustand";
+
 
 function MyApp({Component, pageProps}) {
     const [mData, setData] = useState(null)
 
-    let router = useRef(<RouterFactory>
-        <Route path="/" element={<Index props={mData}/>}>
-            <Route path="/about" element={<About props={mData}/>}/>
-            <Route path="/contact" element={<Contact props={mData}/>}/>
-            <Route path="/login" element={<Login props={mData}/>}/>
-            <Route path="/*" element={<Error statusCode={404}/>}/>
-            <Route path="/404" element={<Error statusCode={404}/>}/>
-            <Route path="/500" element={<Error statusCode={500}/>}/>
-        </Route>
-    </RouterFactory>).current;
+    const useStore = create((set) => ({
+        isLogged: false,
+        setLogged: () => set({ isLogged: true }),
+    }))
+    // const [isLogged, setLogged] = useStore()
+
+    let router = useRef(
+        <RouterFactory>
+            <Route path="/" element={<Index/>}>
+                <Route path="/about" element={<About/>}/>
+                <Route path="/login" element={<AppUserLogin />}/>
+                <Route path="/settings" element={<AppSettings />}/>
+                <Route path="/404" element={<Error statusCode={404}/>}/>
+                <Route path="/500" element={<Error statusCode={500}/>}/>
+            </Route>
+        </RouterFactory>).current;
 
     useEffect(() => {
 
-
-    })
-
+    },[])
+    i18next
+        .init({
+            interpolation: {escapeValue: false},  // React already does escaping
+            lng: 'es',                              // language to use
+            resources: {
+                en: {
+                    common: common_en               // 'common' is our custom namespace
+                }, es: {
+                    common: common_es
+                },
+            },
+        });
     return (<>
-        <InitDataContext.Provider value={data}>
+        <SSRProvider>
             <RouterContext.Provider value={router}>
-                <I18Config>
-                    <CustomHead/>
-                    {/*<SSRProvider>*/}
-                    <HttpRequestsTestClass/>
-                    <CustomNavbar props={mData} {...pageProps}/>
-                    <ThreeHandler >
-                    </ThreeHandler>
-                    <div className="renderer"></div>
-
-                    <Component {...pageProps} />
-                    {/*</SSRProvider>*/}
-                    <Footer props={mData} {...pageProps}/>
-                </I18Config>
+                <InitDataContext.Provider value={data}>
+                    <I18nextProvider i18n={i18next}>
+                        <CustomHead/>
+                        <CustomNavbar/>
+                        <Component {...pageProps} />
+                        <Footer/>
+                    </I18nextProvider>
+                </InitDataContext.Provider>
             </RouterContext.Provider>
-        </InitDataContext.Provider>
+        </SSRProvider>
     </>);
 }
 

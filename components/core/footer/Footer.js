@@ -1,10 +1,9 @@
 import {useContext, useEffect} from "react";
-// import {InitDataContext} from "../core/CusContext"; //TODO
 import {useTranslation} from "react-i18next";
 import {InitDataContext} from "../CusContext";
+import Script from "next/script";
 
-export default function Footer(props) {
-    const crops = props;
+export default function Footer() {
     const initDataContext = useContext(InitDataContext)
     const [t, i18n] = useTranslation("common");
     let contactAddress = initDataContext.contact.addr + " - " + initDataContext.contact.cp + " " + initDataContext.contact.city;
@@ -24,7 +23,7 @@ export default function Footer(props) {
     })
 
 
-    return (<>
+    return <>
         <footer className="sub-bg">
             <div className={"container"}>
                 <div className="row">
@@ -38,7 +37,8 @@ export default function Footer(props) {
                                 </li>
                                 <li><span className="icon pe-7s-mail"></span>
                                     <div className="cont"><h6>{t("contact.email")}</h6>
-                                        <p>{initDataContext.contact.email}</p></div>
+                                        {/*<p>{initDataContext.contact.email}</p>*/}
+                                    </div>
                                 </li>
                                 <li><span className="icon pe-7s-call"></span>
                                     <div className="cont"><h6>{t("contact.tel")}</h6>
@@ -57,19 +57,18 @@ export default function Footer(props) {
                                 {contactList}
                             </div>
                             <div className="copy-right"><p>© 2023 - <a
-                                href="/">Berreteam</a>.
+                                href="/">NextJs</a>.
                             </p></div>
                         </div>
                     </div>
                 </div>
             </div>
         </footer>
-        <script
-            src="https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"
-            crossOrigin></script>
-
-        <script
-            src="https://cdn.jsdelivr.net/npm/react-bootstrap@next/dist/react-bootstrap.min.js"
-            crossOrigin></script>
-    </>)
+        <Script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+                integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+                crossOrigin="anonymous"></Script>
+        <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+                integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+                crossOrigin="anonymous"></Script>
+    </>
 }

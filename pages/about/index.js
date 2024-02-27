@@ -1,7 +1,6 @@
 import Image from "next/image";
 
-export default function About(props) {
-    const crops = props;
+export default function About() {
     return (<>
         <main>
             <header className="pages-header circle-bg valign">
