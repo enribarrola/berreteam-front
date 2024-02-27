@@ -1,10 +1,7 @@
 import {useEffect} from 'react';
-import UserLoginData from "../config/useStore";
 import {useRouter} from "next/navigation";
-import axios from "axios";
 
 export default function CreateAppUser() {
-    const {isLogged, setLogged} = UserLoginData();
     const router = useRouter()
 
 
@@ -24,17 +21,23 @@ export default function CreateAppUser() {
             const surname = document.getElementById('surname').value
             const email = document.getElementById('email').value
 
-            const res = await fetch('http://localhost:8080/appuser/save', {
+            await fetch('http://localhost:8080/appuser/save', {
                 method: 'POST',
-                body: JSON.stringify({'username': username,'password': password,'name': name,'surname': surname,'email': email}),
+                body: JSON.stringify({
+                    'username': username,
+                    'password': password,
+                    'name': name,
+                    'surname': surname,
+                    'email': email
+                }),
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 mode: 'no-cors'
             })
 
-
-            console.log(await res.json());
+            // const resp = await res.json()
+            // console.log(resp);
         });
 
     }, []);

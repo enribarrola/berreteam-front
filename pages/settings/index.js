@@ -1,8 +1,11 @@
 import CreateAppUser from "../appuser/CreateAppUser";
+import CustomNavbar from "../../components/nav/CustomNavbar";
 
-export default function Settings() {
+export default function Settings({userLoginData}) {
 
     return (<>
+        <CustomNavbar userLoginData={userLoginData} />
+
         <hr/>
         <div className="row">
             <div className="col-sm-1">

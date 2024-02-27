@@ -1,11 +1,10 @@
 import {useTranslation} from "react-i18next";
-import UserLoginData from "../../pages/config/useStore";
 
-export default function CustomNavbar() {
+export default function CustomNavbar({userLoginData}) {
     const [t, i18n] = useTranslation("common");
-    const {isLogged, setLogged} = UserLoginData();
+    const {isLogged, setLogged} = userLoginData();
 
-    // console.log(isLogged)
+    console.log(isLogged)
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">

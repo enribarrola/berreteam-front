@@ -28,16 +28,23 @@ import CustomHead from "../components/head/CustomHead";
 import Index from "./index";
 import About from "./about";
 import AppSettings from "./settings";
+import {create} from "zustand";
+
+const UserLoginData = create((set) => ({
+    isLogged: false,
+    setLogged: (value) => set({ isLogged: value }),
+}))
 
 
 function MyApp({Component, pageProps}) {
+
 
     let router = useRef(
         <RouterFactory>
             <Route path="/" element={<Index/>}>
                 <Route path="/about" element={<About/>}/>
-                <Route path="/login" element={<AppUserLogin  />}/>
-                <Route path="/settings" element={<AppSettings />}/>
+                <Route path="/login" element={<AppUserLogin />}/>
+                <Route path="/settings" element={<AppSettings/>}/>
                 <Route path="/404" element={<Error statusCode={404}/>}/>
                 <Route path="/500" element={<Error statusCode={500}/>}/>
             </Route>
@@ -45,7 +52,7 @@ function MyApp({Component, pageProps}) {
 
     useEffect(() => {
 
-    },[])
+    }, [])
     i18next
         .init({
             interpolation: {escapeValue: false},  // React already does escaping
@@ -64,8 +71,7 @@ function MyApp({Component, pageProps}) {
                 <InitDataContext.Provider value={data}>
                     <I18nextProvider i18n={i18next}>
                         <CustomHead/>
-                        <CustomNavbar/>
-                        <Component {...pageProps} />
+                        <Component {...pageProps}  userLoginData={UserLoginData}/>
                         <Footer/>
                     </I18nextProvider>
                 </InitDataContext.Provider>

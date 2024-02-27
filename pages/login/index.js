@@ -1,10 +1,12 @@
 import {useEffect} from 'react';
-import UserLoginData from "../config/useStore";
 import {useRouter} from 'next/navigation'
+import CustomNavbar from "../../components/nav/CustomNavbar";
 
-export default function AppUserLogin() {
+export default function AppUserLogin({userLoginData}) {
 
-    const {isLogged, setLogged} = UserLoginData();
+    const {isLogged, setLogged} = userLoginData();
+    // console.log(userLoginData)
+    console.log(isLogged,setLogged)
     const router = useRouter()
     useEffect(() => {
         const form = document.getElementById('loginform')
@@ -28,8 +30,6 @@ export default function AppUserLogin() {
                 console.log(isLogged)
             } catch (err) {
                 console.error(err.message);
-                setLogged(false)
-
             }
 
         });
@@ -37,6 +37,7 @@ export default function AppUserLogin() {
 
 
     return (<>
+        <CustomNavbar userLoginData={userLoginData}/>
         <form id='loginform'>
             <div className='col'>
                 <div className='row'>
