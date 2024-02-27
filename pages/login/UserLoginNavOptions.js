@@ -15,13 +15,7 @@ export default function UserLoginNavOptions(props) {
             </NavDropdown.Item>
             <NavDropdown.Item href="#action/3.3">{t("base.lightMode")}</NavDropdown.Item>
             <NavDropdown.Divider/>
-            {isLogged ? (<>
-                    <NavDropdown.Item href="/logout">{t("logout")}</NavDropdown.Item></>) :
-                (<>
-                    <NavDropdown.Item href="/login">{t("login.tag")}</NavDropdown.Item>
-                    <NavDropdown.Item href="/signin">{t("signin")}</NavDropdown.Item>
-                </>)
-            }
+
         </NavDropdown>
     </>);
 }

@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import {Container, Nav, Navbar} from "react-bootstrap";
+import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import UserLoginNavOptions from "../../pages/login/UserLoginNavOptions";
 
 export default function CustomNavbar() {
@@ -23,12 +23,17 @@ export default function CustomNavbar() {
                             <li className="nav-item">
                                 <a className="nav-link " aria-current="page" href="/login">Login</a>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link " aria-current="page" href="/settings">Settings</a>
-                            </li>
-                            <li className="nav-item">
-                                <UserLoginNavOptions />
-                            </li>
+                            {isLogged ? (<>
+                                <li className="nav-item">
+                                    <a className="nav-link " aria-current="page" href="/settings">Settings</a>
+                                </li>
+
+                                    <NavDropdown.Item href="/logout">{t("logout")}</NavDropdown.Item></>) :
+                                (<>
+                                    <NavDropdown.Item href="/login">{t("login.tag")}</NavDropdown.Item>
+                                    <NavDropdown.Item href="/signin">{t("signin")}</NavDropdown.Item>
+                                </>)
+                            }
                         </ul>
                     </div>
                 </div>
