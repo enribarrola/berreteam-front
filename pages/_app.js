@@ -28,23 +28,15 @@ import CustomHead from "../components/head/CustomHead";
 import Index from "./index";
 import About from "./about";
 import AppSettings from "./settings";
-import {create} from "zustand";
 
 
 function MyApp({Component, pageProps}) {
-    const [mData, setData] = useState(null)
-
-    const useStore = create((set) => ({
-        isLogged: false,
-        setLogged: () => set({ isLogged: true }),
-    }))
-    const {isLogged, setLogged} = useStore()
 
     let router = useRef(
         <RouterFactory>
             <Route path="/" element={<Index/>}>
                 <Route path="/about" element={<About/>}/>
-                <Route path="/login" element={<AppUserLogin />}/>
+                <Route path="/login" element={<AppUserLogin  />}/>
                 <Route path="/settings" element={<AppSettings />}/>
                 <Route path="/404" element={<Error statusCode={404}/>}/>
                 <Route path="/500" element={<Error statusCode={500}/>}/>
@@ -87,6 +79,6 @@ export const getStaticProps = async ({locale}) => {
     return {
         props: {
             ...(await serverSideTranslations(locale ?? "es", ["index",])),
-        }, // revalidate: 60 * 60 * 24 // Try to remove revalidate
+        },
     };
 };

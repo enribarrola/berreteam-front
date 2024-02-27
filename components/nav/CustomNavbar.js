@@ -1,12 +1,10 @@
 import {useTranslation} from "react-i18next";
-import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
-import UserLoginNavOptions from "../../pages/login/UserLoginNavOptions";
-import {useStore} from "zustand";
+import UserLoginData from "../../pages/config/useStore";
 
 export default function CustomNavbar() {
     const [t, i18n] = useTranslation("common");
-    // const [isLogged,setLogged] = useStore()
-    const isLogged = false;
+    const {isLogged, setLogged} = UserLoginData();
+
     // console.log(isLogged)
     return (
         <>
@@ -20,8 +18,6 @@ export default function CustomNavbar() {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
-
                             {isLogged ? (<>
                                 <li className="nav-item">
                                     <a className="nav-link " aria-current="page" href="/settings">Settings</a>

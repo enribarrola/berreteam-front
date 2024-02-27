@@ -7,7 +7,7 @@ export default function Settings() {
         <div className="row">
             <div className="col-sm-1">
                 <nav className="nav flex-column">
-                    <a className="nav-link" aria-current="page" href="#">User</a>
+                    <a className="nav-link" aria-current="page" href="/user">User</a>
                     <a className="nav-link" href="#">Link</a>
                     <a className="nav-link" href="#">Link</a>
                 </nav>

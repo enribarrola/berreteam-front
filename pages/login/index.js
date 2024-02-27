@@ -1,16 +1,15 @@
-import {Form} from 'react-bootstrap';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
+import UserLoginData from "../config/useStore";
+import {useRouter} from 'next/navigation'
 
 export default function AppUserLogin() {
 
-    const [isLogged, setLogged] = useStore()
-
+    const {isLogged, setLogged} = UserLoginData();
+    const router = useRouter()
     useEffect(() => {
         const form = document.getElementById('loginform')
-
         form.addEventListener('submit', async (event) => {
             event.preventDefault()
-
             const username = document.getElementById('username').value
             const password = document.getElementById('password').value
             console.log(username, password)
@@ -25,12 +24,17 @@ export default function AppUserLogin() {
                 document.getElementById('username').value = "";
                 document.getElementById('password').value = "";
                 setLogged(true)
+                router.push("/settings")
+                console.log(isLogged)
             } catch (err) {
                 console.error(err.message);
                 setLogged(false)
+
             }
+
         });
     }, []);
+
 
     return (<>
         <form id='loginform'>

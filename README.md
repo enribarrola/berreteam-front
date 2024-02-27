@@ -56,3 +56,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - [VCO] (https://chrislowis.co.uk/notes/shapes-vco)
 - [DAC](http://hyperphysics.phy-astr.gsu.edu/hbase/Electronic/dac.html)
 
+
+
+
+Zustand
+https://stackoverflow.com/questions/76191324/next-13-4-error-next-redirect-in-api-routes
+https://medium.com/@joris.l/tutorial-zustand-a-simple-and-powerful-state-management-solution-9ad4d06d5334
