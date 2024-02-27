@@ -38,7 +38,7 @@ function MyApp({Component, pageProps}) {
         isLogged: false,
         setLogged: () => set({ isLogged: true }),
     }))
-    // const [isLogged, setLogged] = useStore()
+    const {isLogged, setLogged} = useStore()
 
     let router = useRef(
         <RouterFactory>

@@ -1,10 +1,13 @@
 import {useTranslation} from "react-i18next";
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import UserLoginNavOptions from "../../pages/login/UserLoginNavOptions";
+import {useStore} from "zustand";
 
 export default function CustomNavbar() {
     const [t, i18n] = useTranslation("common");
-
+    // const [isLogged,setLogged] = useStore()
+    const isLogged = false;
+    // console.log(isLogged)
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -17,20 +20,16 @@ export default function CustomNavbar() {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <a className="nav-link" aria-current="page" href="/trips">Trips</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link " aria-current="page" href="/login">Login</a>
-                            </li>
+
+
                             {isLogged ? (<>
                                 <li className="nav-item">
                                     <a className="nav-link " aria-current="page" href="/settings">Settings</a>
-                                </li>s
-                                    <NavDropdown.Item href="/logout">{t("logout")}</NavDropdown.Item></>) :
+                                </li>
+                                    <a className="nav-link " aria-current="page" href="/logout">{t("logout")}</a></>) :
                                 (<>
-                                    <NavDropdown.Item href="/login">{t("login.tag")}</NavDropdown.Item>
-                                    <NavDropdown.Item href="/signin">{t("signin")}</NavDropdown.Item>
+                                    <a className="nav-link " aria-current="page" href="/login">{t("login.tag")}</a>
+                                    <a className="nav-link " aria-current="page" href="/signin">{t("signin")}</a>
                                 </>)
                             }
                         </ul>
