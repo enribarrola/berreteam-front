@@ -4,7 +4,7 @@ export default function CustomNavbar({userLoginData}) {
     const [t, i18n] = useTranslation("common");
     const {isLogged, setLogged} = userLoginData();
 
-    console.log(isLogged)
+    // console.log("islogged:",isLogged)
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">

@@ -3,11 +3,11 @@ import {useEffect, useState} from "react";
 export default function Trips() {
     return (<>
         <h1>Trips</h1>
-        <UserProfileEdit/>
+        <TripCards/>
     </>)
 }
 
-export function UserProfileEdit() {
+export function TripCards() {
     let [viajes, setViajes] = useState([])
 
     // let mViajes = []
@@ -27,28 +27,13 @@ export function UserProfileEdit() {
     }
     useEffect(() => {
         var viajes = []
-        // for (let j = 0; j < data.length; j++) { //TODO descomentar
         for (let i = 0; i < 9; i++) {
             viajes.push(
                 <>
-                    {/*<TripCard data={data[j]}/>*/} {/*TODO descomentar*/}
                     <TripCard key={i}  data={data}/>
                 </>
             )
         }
-        // if (data.length % 2 != 0) {
-        //
-        //     var md = {
-        //         id: 9,
-        //         from: "",
-        //         destination: "",
-        //         time: "",
-        //         driver: ""
-        //     }
-        //     viajes.push(<>
-        //         <TripCard data={md}></TripCard>
-        //     </>)
-        // }
         setViajes(viajes);
     }, [setViajes]);
 
