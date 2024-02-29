@@ -44,20 +44,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 
-## MITERIO
-- [DesarrolloSostenible] (https://www.un.org/sustainabledevelopment/es/objetivos-de-desarrollo-sostenible/) TODO
-- [CambioClimatico] (https://www.un.org/sustainabledevelopment/es/climate-change-2/) TODO
-- [Océanos](https://www.un.org/sustainabledevelopment/es/oceans/)TODO
-- [BioDiversidad] (https://www.un.org/sustainabledevelopment/es/biodiversity/) TODO
-
-
-## Electronica
-- [Mixer]
-- [VCO] (https://chrislowis.co.uk/notes/shapes-vco)
-- [DAC](http://hyperphysics.phy-astr.gsu.edu/hbase/Electronic/dac.html)
-
-
-
 
 Zustand
 https://stackoverflow.com/questions/76191324/next-13-4-error-next-redirect-in-api-routes
