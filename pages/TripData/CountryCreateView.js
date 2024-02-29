@@ -1,76 +1,112 @@
-import {useEffect} from "react";
+import React, { useState } from 'react';
 
 export default function CountryCreateView() {
+  const [datos, setDatos] = useState({
+    iso: '',
+    name: '',
+    nice_name: '',
+    iso3: '',
+    num_code: '',
+    phone_code: '',
+  });
 
+  const handleInputChange = (e) => {
+    setDatos({
+      ...datos,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    async function createCountry(form) {
-        try {
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault()
-                const iso = document.getElementById('iso').value
-                const name = document.getElementById('name').value
-                const nice_name = document.getElementById('nice_name').value
-                const iso3 = document.getElementById('iso3').value
-                const num_code = document.getElementById('num_code').value
-                const phone_code = document.getElementById('phone_code').value
-                const res = await fetch(`http://localhost:8080/country/save`, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        iso: iso,
-                        iso3: iso3,
-                        name: name,
-                        nice_name: nice_name,
-                        num_code: num_code,
-                        phone_code: phone_code
-                    }),
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-                    mode: 'no-cors'
-                })
-                // const response = await res.json();
-                console.log("ADSDASDSA")
-            });
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+    try {
+      const endpoint = 'http://181.94.114.44:8080/country/save';
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+		  'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify(datos)
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('Datos enviados correctamente:', responseData);
+      } else {
+        console.error('Error al enviar los datos:', response.statusText);
+      }
+
+    } catch (error) {
+      console.error('Error al enviar los datos:', error);
     }
+  };
 
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+	  iso:
+        <input
+          type="text"
+          name="iso"
+          value={datos.iso}
+          onChange={handleInputChange}
+        />
+      </label>
 
-    useEffect(() => {
-        const form = document.getElementById("countryCreateView")
-        createCountry(form)
+      <label>
+	  name:
+        <input
+          type="text"
+          name="name"
+          value={datos.name}
+          onChange={handleInputChange}
+        />
+      </label>
 
-    }, []);
+      <label>
+	  nice_name:
+        <input
+          type="text"
+          name="nice_name"
+          value={datos.nice_name}
+          onChange={handleInputChange}
+        />
+      </label>
 
-    return (<>
-        <hr></hr>
-        <h1>COUNTRY CREATE VIEW</h1>
+      <label>
+	  iso3:
+        <input
+          type="text"
+          name="iso3"
+          value={datos.iso3}
+          onChange={handleInputChange}
+        />
+      </label>
 
-        <form id={"countryCreateView"}>
-            <label htmlFor='iso'>iso:</label>
-            <input id='iso' type='text'/>
-            <br/>
-            <label htmlFor='name'>name:</label>
-            <input id='name' type='text'/>
-            <br/>
-            <label htmlFor='nice_name'>nice_name:</label>
-            <input id='nice_name' type='text'/>
-            <br/>
-            <label htmlFor='iso3'>iso3:</label>
-            <input id='iso3' type='text'/>
-            <br/>
-            <label htmlFor='num_code'>num_code:</label>
-            <input id='num_code' type='text'/>
-            <br/>
-            <label htmlFor='phone_code'>phone_code:</label>
-            <input id='phone_code' type='text'/>
-            <br/>
-            <input type='submit' value='Submit'/>
-        </form>
+      <label>
+	  num_code:
+        <input
+          type="text"
+          name="num_code"
+          value={datos.num_code}
+          onChange={handleInputChange}
+        />
+      </label>
 
-        <hr></hr>
-    </>)
+      <label>
+	  phone_code:
+        <input
+          type="text"
+          name="phone_code"
+          value={datos.phone_code}
+          onChange={handleInputChange}
+        />
+      </label>
+
+      <button type="submit">Enviar</button>
+    </form>
+  );
 }
